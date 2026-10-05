@@ -1,0 +1,4 @@
+aiohttp>=3.9
+jieba>=0.42
+beautifulsoup4>=4.12
+qrcode[pil]>=7.4

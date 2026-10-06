@@ -1,5 +1,10 @@
 # MUMGuide 微信问答机器人 — 马莫百科
 
+[![类型](https://img.shields.io/badge/%E7%B1%BB%E5%9E%8B-%E6%97%A0%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E4%BF%A1%E6%9C%BA%E5%99%A8%E4%BA%BA-2563eb?style=for-the-badge)](#它怎么回答)
+[![技术](https://img.shields.io/badge/%E6%8A%80%E6%9C%AF-Python_3.12_%C2%B7_aiohttp_%C2%B7_SQLite-7c3aed?style=for-the-badge)](#目录结构)
+[![测试](https://img.shields.io/badge/%E6%B5%8B%E8%AF%95-pytest_%C2%B7_%E7%A6%BB%E7%BA%BF-16a34a?style=for-the-badge)](#)
+[![许可证](https://img.shields.io/badge/%E8%AE%B8%E5%8F%AF%E8%AF%81-%E4%BF%9D%E7%95%99%E6%89%80%E6%9C%89%E6%9D%83%E5%88%A9-dc2626?style=for-the-badge)](LICENSE)
+
 [English](README.md) · **中文**
 
 「马莫百科」公众号（服务 Monash University Malaysia 的同学）的微信问答机器人。同学关注公众号后直接用中文提问，机器人从三个来源回答，**不用大模型、不花 token**，每条回答都附上来源链接，方便同学核对。答不上来的问题会转给作者，作者的回复会发回给提问人，并被机器人记住。

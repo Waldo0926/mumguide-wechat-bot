@@ -1,5 +1,10 @@
 # MUMGuide WeChat Bot — 马莫百科 Q&A bot
 
+[![Type](https://img.shields.io/badge/Type-Zero--AI_WeChat_bot-2563eb?style=for-the-badge)](#how-it-answers)
+[![Tech](https://img.shields.io/badge/Tech-Python_3.12_%C2%B7_aiohttp_%C2%B7_SQLite-7c3aed?style=for-the-badge)](#project-layout)
+[![Tests](https://img.shields.io/badge/Tests-pytest_%C2%B7_offline-16a34a?style=for-the-badge)](#quick-start-development)
+[![License](https://img.shields.io/badge/License-All_Rights_Reserved-dc2626?style=for-the-badge)](LICENSE)
+
 **English** · [中文](README.zh-CN.md)
 
 A WeChat question-answering bot for the **马莫百科 (MUMGuide)** official account, which serves students of Monash University Malaysia. A student follows the account and asks a question in Chinese; the bot answers from three sources **with no language model and no token cost**, and every answer carries a link to the source so the student can check it. Anything it cannot answer is forwarded to the owner, whose reply is sent back and remembered.

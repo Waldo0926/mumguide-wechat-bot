@@ -1,4 +1,4 @@
-# MUMGuide WeChat Bot — 马莫百科 Q&A bot
+# MUMGuide WeChat Bot: 马莫百科 Q&A bot
 
 [![Type](https://img.shields.io/badge/Type-Zero--AI_WeChat_bot-2563eb?style=for-the-badge)](#how-it-answers)
 [![Tech](https://img.shields.io/badge/Tech-Python_3.12_%C2%B7_aiohttp_%C2%B7_SQLite-7c3aed?style=for-the-badge)](#project-layout)
@@ -94,7 +94,7 @@ For fuller Chinese rendering of Handbook answers, put copies of Monash Hub's `fr
 |---|---|---|
 | `WXBOT_HOME` | repo root | where `data/` lives |
 | `WXBOT_HUB_API` | local Monash Hub | Monash Hub API base URL |
-| `WXBOT_MP_TOKEN` | — | token entered in the official-account backend; the callback server is off without it |
+| `WXBOT_MP_TOKEN` | none | token entered in the official-account backend; the callback server is off without it |
 | `WXBOT_MP_PORT` | `8102` | local port of the callback server |
 | `WXBOT_OWNER_NAME` | `Waldo` | name used in "转给 …" replies |
 | `WXBOT_MAMO_TS`, `WXBOT_HUB_I18N_DIR` | under `data/` | copies of Monash Hub files, refreshed by a sync job |

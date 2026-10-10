@@ -1,4 +1,4 @@
-# MUMGuide 微信问答机器人 — 马莫百科
+# MUMGuide 微信问答机器人（马莫百科）
 
 [![类型](https://img.shields.io/badge/%E7%B1%BB%E5%9E%8B-%E6%97%A0%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BE%AE%E4%BF%A1%E6%9C%BA%E5%99%A8%E4%BA%BA-2563eb?style=for-the-badge)](#它怎么回答)
 [![技术](https://img.shields.io/badge/%E6%8A%80%E6%9C%AF-Python_3.12_%C2%B7_aiohttp_%C2%B7_SQLite-7c3aed?style=for-the-badge)](#目录结构)
@@ -94,7 +94,7 @@ WXBOT_HOME=.scratch WXBOT_HUB_API=https://monashhub.secureview.tech/api/v1 \
 |---|---|---|
 | `WXBOT_HOME` | 仓库根目录 | `data/` 所在位置 |
 | `WXBOT_HUB_API` | 本机 Monash Hub | Monash Hub API 地址 |
-| `WXBOT_MP_TOKEN` | — | 填在公众号后台的 Token；不设置则不启动回调服务 |
+| `WXBOT_MP_TOKEN` | 无 | 填在公众号后台的 Token；不设置则不启动回调服务 |
 | `WXBOT_MP_PORT` | `8102` | 回调服务的本地端口 |
 | `WXBOT_OWNER_NAME` | `Waldo` | "转给 …" 回复里的名字 |
 | `WXBOT_MAMO_TS`、`WXBOT_HUB_I18N_DIR` | `data/` 下 | Monash Hub 文件的副本，由同步任务更新 |

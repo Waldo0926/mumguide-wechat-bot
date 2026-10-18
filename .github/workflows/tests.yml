@@ -1,0 +1,42 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Audit dependencies for known vulnerabilities
+        # The bot runs on a public callback URL, so a vulnerable aiohttp or
+        # Pillow (behind qrcode) matters. A new advisory fails the build until
+        # the package is upgraded or the finding is written down here.
+        run: |
+          pip install pip-audit
+          pip-audit
+
+      - name: Tests
+        # Fully offline: a fake Monash Hub and fake official-account requests.
+        run: python -m pytest -q

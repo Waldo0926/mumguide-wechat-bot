@@ -2,7 +2,7 @@
 
 [![Type](https://img.shields.io/badge/Type-Zero--AI_WeChat_bot-2563eb?style=for-the-badge)](#how-it-answers)
 [![Tech](https://img.shields.io/badge/Tech-Python_3.12_%C2%B7_aiohttp_%C2%B7_SQLite-7c3aed?style=for-the-badge)](#project-layout)
-[![Tests](https://img.shields.io/badge/Tests-pytest_%C2%B7_offline-16a34a?style=for-the-badge)](#quick-start-development)
+[![Tests](https://github.com/Waldo0926/mumguide-wechat-bot/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/Waldo0926/mumguide-wechat-bot/actions/workflows/tests.yml)
 [![License](https://img.shields.io/badge/License-All_Rights_Reserved-dc2626?style=for-the-badge)](LICENSE)
 
 **English** · [中文](README.zh-CN.md)

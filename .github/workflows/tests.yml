@@ -16,27 +16,26 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.12", "3.13"]
-
     steps:
       - uses: actions/checkout@v5
-
       - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
-          cache-dependency-path: requirements-dev.txt
+          cache-dependency-path: requirements*.txt
+      - run: pip install -r requirements-dev.txt ruff
+      # Syntax errors and pyflakes only: undefined names, unused imports and the like.
+      - run: ruff check --select E9,F .
+      # Fully offline: a fake Monash Hub, fake WeChat requests, and no test downloads a model or calls one.
+      - run: python -m pytest -q
 
-      - name: Install dependencies
-        run: pip install -r requirements-dev.txt
-
-      - name: Audit dependencies for known vulnerabilities
-        # The bot runs on a public callback URL, so a vulnerable aiohttp or
-        # Pillow (behind qrcode) matters. A new advisory fails the build until
-        # the package is upgraded or the finding is written down here.
-        run: |
-          pip install pip-audit
-          pip-audit
-
-      - name: Tests
-        # Fully offline: a fake Monash Hub and fake official-account requests.
-        run: python -m pytest -q
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: pip install pip-audit
+      # Known vulnerabilities in what the server installs, including the optional RAG extras.
+      - run: pip-audit -r requirements.txt -r requirements-rag.txt

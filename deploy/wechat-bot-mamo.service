@@ -1,0 +1,24 @@
+[Unit]
+Description=WeChat bot - sync 马莫百科 posts and Monash Hub's Chinese from the monash-hub checkout
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=wxbot
+Group=wxbot
+WorkingDirectory=/opt/wechat-bot
+Environment=WXBOT_HOME=/opt/wechat-bot
+EnvironmentFile=-/opt/wechat-bot/.env
+# /opt/monash-hub is not readable by wxbot; copy just the post list across with root rights.
+# The leading "-" lets the step fail on a host without a Monash Hub checkout: there, set
+# WXBOT_HUB_FILES_URL in .env and mamo-sync downloads the same files from the Hub's repository (issue #2).
+ExecStartPre=-+/usr/bin/install -o wxbot -g wxbot -m 644 /opt/monash-hub/repo/frontend/data/mamo.ts /opt/wechat-bot/data/mamo.ts
+# ... and the website's Chinese (UI strings + Handbook vocabulary), so answers read the same as the site.
+ExecStartPre=+/usr/bin/install -d -o wxbot -g wxbot -m 755 /opt/wechat-bot/data/hub-i18n
+ExecStartPre=-+/usr/bin/install -o wxbot -g wxbot -m 644 /opt/monash-hub/repo/frontend/i18n/index.ts /opt/monash-hub/repo/frontend/i18n/handbook-terms.ts /opt/wechat-bot/data/hub-i18n/
+ExecStart=/opt/wechat-bot/venv/bin/python -m wxbot mamo-sync
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ReadWritePaths=/opt/wechat-bot/data

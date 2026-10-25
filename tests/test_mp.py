@@ -1,5 +1,6 @@
 import asyncio
 import hashlib
+import time
 import xml.etree.ElementTree as ET
 
 import pytest
@@ -58,6 +59,26 @@ def run(server, coro_fn):
     return asyncio.run(go())
 
 
+def test_health_says_when_the_owner_cannot_be_reached(env):
+    kb, brain, server, _ = env
+
+    async def get(c):
+        r = await c.get("/health")
+        return r.status, await r.json()
+    assert run(server, get) == (200, {"ok": True, "last_poll_age_s": None, "session_expired": None, "pending": 0})
+    kb.kv_set("last_poll", str(int(__import__("time").time()) - 60))
+    kb.add_pending("mp:openid1", "食堂几点开")
+    status, body = run(server, get)
+    assert status == 200 and 60 <= body["last_poll_age_s"] <= 65 and body["pending"] == 1
+    kb.kv_set("last_poll", str(int(__import__("time").time()) - 3600))           # the poll loop is stuck
+    assert run(server, get)[0] == 503
+    kb.kv_set("last_poll", str(int(__import__("time").time())))
+    kb.kv_set("session_expired", "2026-10-23 10:00:00")                            # the owner must re-scan
+    status, body = run(server, get)
+    assert status == 503 and body["session_expired"] == "2026-10-23 10:00:00"
+    assert "openid" not in str(body) and "食堂" not in str(body)
+
+
 def test_url_verification(env):
     _, _, server, _ = env
 
@@ -85,7 +106,7 @@ def test_miss_then_answer_arrives_on_next_message(env):
     async def go(c):
         r1 = await c.post("/mp", params=sign(), data=msg("o1", "食堂哪家好吃", msgid="1"))
         first = content_of(await r1.text())
-        await asyncio.sleep(0.05)                    # let the admin notification go out
+        forwarded.extend(brain.due_notes(time.time() + 3600))      # the held 待答 note
         pid = kb.open_pending()[0]["id"]
         admin_reply = await brain.handle(ADMIN, f"答 {pid} 推荐 Campus Centre")
         for o in admin_reply:
@@ -122,7 +143,7 @@ def test_fit_bytes_keeps_links():
 def test_first_message_gets_welcome_then_answer(env):
     kb, _, server, _ = env
     kb.kv_set("mp_welcome", "欢迎来到马莫百科\n我是 Waldo\n这里分享很多东西\nMonash Hub\nhttps://monashhub.secureview.tech")
-    kb.add_qa("怎么进群", "加微信 群助手")
+    kb.add_qa("怎么进群", "加微信 MonashGuide")
 
     async def go(c):
         r1 = await c.post("/mp", params=sign(), data=msg("o2", "怎么进群呢？", msgid="21"))
@@ -130,8 +151,8 @@ def test_first_message_gets_welcome_then_answer(env):
         r3 = await c.post("/mp", params=sign(), data=msg("o2", "你好", msgid="23"))
         return [content_of(await r.text()) for r in (r1, r2, r3)]
     first, second, hello = run(server, go)
-    assert first.startswith("欢迎来到马莫百科") and first.index("———") < first.index("群助手")
-    assert second.startswith("加微信 群助手")                 # only the first message gets it
+    assert first.startswith("欢迎来到马莫百科") and first.index("———") < first.index("MonashGuide")
+    assert second.startswith("加微信 MonashGuide")                 # only the first message gets it
     assert hello.startswith("欢迎来到马莫百科") and "自动问答已开启" in hello
 
 
@@ -158,6 +179,8 @@ def test_a_late_answer_waits_in_the_outbox(env, monkeypatch):
     async def go(c):
         first = content_of(await (await c.post("/mp", params=sign(), data=msg("u9", "问题", msgid="77"))).text())
         await asyncio.sleep(0.3)
+        # Only the first reply is meant to be late; 50 ms is too tight for a busy CI runner.
+        monkeypatch.setattr(mp, "REPLY_BUDGET_S", 4.0)
         later = content_of(await (await c.post("/mp", params=sign(), data=msg("u9", "1", msgid="78"))).text())
         return first, later
     first, later = run(server, go)

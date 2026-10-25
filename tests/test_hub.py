@@ -121,6 +121,7 @@ def test_without_i18n_files_everything_stays_english():
 
 # ---- the unit summary, and falling back to an earlier Handbook year ---------------------------------
 import asyncio
+import time
 
 import aiohttp
 from aiohttp import web
@@ -174,11 +175,13 @@ def test_overview_from_an_earlier_year_says_so():
     assert "/units/FIT2102?year=2026" in text
 
 
-def _fake_hub(unit_years: dict[str, list[int]]):
+def _fake_hub(unit_years: dict[str, list[int]], calls: list[str] | None = None):
     """A stand-in for Monash Hub: /ask knows only the default year (2027) unless told one; units
     are listed in the given years."""
     async def ask(request):
         body = await request.json()
+        if calls is not None:
+            calls.append(f"ask campus={body.get('campus')}")
         year = body.get("year") or 2027
         code = "FIT2004" if "FIT2004" in body["query"] else "FIT2102" if "FIT2102" in body["query"] else "FIT9999"
         if year not in unit_years.get(code, []):
@@ -194,12 +197,15 @@ def _fake_hub(unit_years: dict[str, list[int]]):
             "sources": [{"kind": "handbook", "url": f"https://handbook.monash.edu/{year}/units/{code}"}]})
 
     async def unit(request):
+        if calls is not None:
+            calls.append(request.path_qs)
         code = request.match_info["code"]
         years = unit_years.get(code, [])
         if not years:
             return web.json_response({}, status=404)
         year = int(request.query["year"]) if "year" in request.query else (2027 if 2027 in years else max(years))
         return web.json_response({**UNIT_2102, "unit_code": code, "academic_year": year,
+                                  "available_years": sorted(years, reverse=True),
                                   "not_in_year": None if 2027 in years or "year" in request.query else 2027})
     app = web.Application()
     app.router.add_post("/ask", ask)
@@ -207,9 +213,9 @@ def _fake_hub(unit_years: dict[str, list[int]]):
     return app
 
 
-def _run_ask(monkeypatch, unit_years, question):
+def _run_ask(monkeypatch, unit_years, question, calls=None):
     async def go():
-        async with TestServer(_fake_hub(unit_years)) as server:
+        async with TestServer(_fake_hub(unit_years, calls)) as server:
             monkeypatch.setattr(config, "HUB_API", f"http://127.0.0.1:{server.port}")
             monkeypatch.setattr(hub, "_i18n", type("C", (), {"get": staticmethod(lambda: I18N)}))
             async with aiohttp.ClientSession() as session:
@@ -232,9 +238,106 @@ def test_ask_falls_back_to_the_latest_year_that_lists_the_unit(monkeypatch):
     assert "2026 年 Handbook 的内容" in summary.text and "🎯 学习目标：" in summary.text
 
 
+def test_each_unit_page_is_read_once_per_answer(monkeypatch):
+    calls = []
+    _run_ask(monkeypatch, {"FIT2004": [2026, 2025]}, "FIT2004 工作量", calls)
+    # Year fallback, Chinese workload and teach-out notice share one read.
+    assert len([c for c in calls if c.startswith("/units")]) == 1
+    calls.clear()
+    _run_ask(monkeypatch, {"FIT2102": [2027]}, "FIT2102 工作量", calls)
+    assert len([c for c in calls if c.startswith("/units")]) == 1
+
+
+def test_ask_asks_for_malaysia_pages_first(monkeypatch):
+    calls = []
+    _run_ask(monkeypatch, {"FIT2102": [2027]}, "FIT2102 工作量", calls)
+    assert "ask campus=malaysia" in calls
+    monkeypatch.setattr(config, "HUB_CAMPUS", "")
+    calls.clear()
+    _run_ask(monkeypatch, {"FIT2102": [2027]}, "FIT2102 工作量", calls)
+    assert "ask campus=None" in calls
+
+
 def test_ask_says_when_a_unit_is_in_no_year(monkeypatch):
     answer = _run_ask(monkeypatch, {}, "FIT9999 工作量")
     assert answer.answer_type == "unit_not_found" and "FIT9999" in answer.text
+
+
+# ---- the Handbook year (issue #6) --------------------------------------------------------------------
+
+def test_year_words_in_the_question():
+    this = time.localtime().tm_year
+    assert hub.split_year("FIT2004 工作量") == ("FIT2004 工作量", None)             # 2004 is the unit code
+    assert hub.split_year("fit 2004 和 FIT1008 有考试吗") == ("fit 2004 和 FIT1008 有考试吗", None)
+    assert hub.split_year("FIT2102 2026 工作量") == ("FIT2102 工作量", 2026)
+    assert hub.split_year("2026版 FIT2102 有考试吗") == ("FIT2102 有考试吗", 2026)
+    assert hub.split_year("编程范式 2026年的 考试") == ("编程范式 考试", 2026)
+    assert hub.split_year("明年 FIT2102 开吗") == ("FIT2102 开吗", this + 1)
+    assert hub.split_year("今年FIT2102开吗") == ("FIT2102开吗", this)
+    assert hub.split_year("1958年建校") == ("1958年建校", None)                   # not a Handbook year
+
+
+def test_year_asked_in_the_question_is_the_year_answered(monkeypatch):
+    answer = _run_ask(monkeypatch, {"FIT2102": [2027, 2026]}, "FIT2102 2026 工作量")
+    assert "（2026 Handbook）" in answer.text and "不在" not in answer.text
+    assert "📅 FIT2102 还有 2027 年的 Handbook，回复「FIT2102 2027」查看" in answer.text
+    assert "/2026/units/FIT2102" in answer.text
+    # A year the unit is not in: the latest year that lists it, and which year was asked for.
+    answer = _run_ask(monkeypatch, {"FIT2102": [2027]}, "FIT2102 2026 工作量")
+    assert "FIT2102 不在 2026 年 Handbook 中" in answer.text and "（2027 Handbook）" in answer.text
+    assert "还有" not in answer.text
+
+
+def test_pinned_year(monkeypatch):
+    monkeypatch.setattr(config, "HUB_YEAR", 2026)
+    answer = _run_ask(monkeypatch, {"FIT2102": [2027, 2026]}, "FIT2102 工作量")
+    assert "（2026 Handbook）" in answer.text and "还有 2027 年" in answer.text
+    summary = _run_ask(monkeypatch, {"FIT2102": [2027, 2026]}, "FIT2102学什么")
+    assert "（2026 Handbook）" in summary.text and "🎯 学习目标：" in summary.text
+    assert "📅 FIT2102 还有 2027 年的 Handbook" in summary.text
+    # A year typed in the question beats the pinned one.
+    assert "（2027 Handbook）" in _run_ask(monkeypatch, {"FIT2102": [2027, 2026]}, "FIT2102 2027 工作量").text
+
+
+def test_other_years_are_offered_after_a_fallback(monkeypatch):
+    answer = _run_ask(monkeypatch, {"FIT2004": [2026, 2025]}, "FIT2004 工作量")
+    assert "FIT2004 不在 2027 年 Handbook 中" in answer.text
+    assert "📅 FIT2004 还有 2025 年的 Handbook，回复「FIT2004 2025」查看" in answer.text
+    assert hub.years_hint("FIT2102", 2027, [2027]) is None
+    assert hub.years_hint("FIT2102", 2027, [2027, 2026, 2025, 2024]) == \
+        "📅 FIT2102 还有 2026 / 2025 年的 Handbook，回复「FIT2102 2026」查看"
+
+
+# ---- community posts as a source (issue #14) -----------------------------------------------------------
+
+def test_community_posts_are_labelled_solved_first_and_at_most_two():
+    data = {"answer_type": "handbook_workload", "unit_code": "FIT2102", "title": "FIT2102 · Workload",
+            "blocks": [{"type": "text", "text": "每学期 144 小时。"}],
+            "related_community": [
+                {"id": 7, "title": "FIT2102 期末难吗", "answer_count": 3, "is_solved": False},
+                {"id": 9, "title": "FIT2102 作业怎么分配时间", "answer_count": 2, "is_solved": True},
+                {"id": 11, "title": "没人回答的帖子", "answer_count": 0, "is_solved": False},
+                {"id": 12, "title": "另一个已解决的帖子", "answer_count": 1, "is_solved": True}]}
+    text = format_answer(data, I18N).text
+    assert "💬 社区里相关的讨论（学生经验，非官方）：" in text
+    assert "· FIT2102 作业怎么分配时间（已解决）https://monashhub.secureview.tech/community/post/9" in text
+    assert "/community/post/12" in text
+    assert "/community/post/7" not in text and "/community/post/11" not in text
+    assert text.index("144 小时") < text.index("💬")                       # after the answer, never before
+    # With no solved posts, the ones with answers are shown with their count.
+    data["related_community"] = data["related_community"][:1]
+    assert "（3 个回答）https://monashhub.secureview.tech/community/post/7" in format_answer(data, I18N).text
+    data["related_community"] = []
+    assert "💬" not in format_answer(data, I18N).text
+
+
+def test_community_posts_alone_are_a_weak_answer_not_a_miss():
+    posts = [{"id": 7, "title": "宿舍怎么申请", "answer_count": 1, "is_solved": False}]
+    answer = format_answer({"answer_type": "community_fallback", "related_community": posts}, I18N)
+    assert answer.strength == "weak" and answer.text.startswith("💬 社区里相关的讨论（学生经验，非官方）：")
+    assert format_answer({"answer_type": "community_fallback", "related_community": []}, I18N) is None
+    assert format_answer({"answer_type": "community_fallback",
+                          "related_community": [{"id": 8, "title": "没人回答", "answer_count": 0}]}, I18N) is None
 
 
 # ---- degrees, units by name, page ordering, the Hub being down --------------------------------------
@@ -397,6 +500,31 @@ def test_teach_out_notice_keeps_the_faculty_wording():
     assert len(text.encode()) <= hub.OVERVIEW_BUDGET
 
 
+TEACH_OUT_SOURCES = {
+    "it-au": {"url": "https://www.monash.edu/it/current-students/courses/re-enrolment/undergraduate", "applies_to": "australia"},
+    "it-my": {"url": "https://www.monash.edu.my/it/current-students/Course-Offered/undergraduates/re-enrollment",
+              "applies_to": "malaysia"}}
+
+
+def test_teach_out_notice_is_the_malaysia_one_when_there_is_one():
+    unit = {**UNIT_2102, "teach_out": {"entries": [
+        {"change": "No longer offered", "course": "BCS, BSE", "plan": "Replace with FIT3234 (S1 and S2)",
+         "source": "it-au", "applies_to": "australia"},
+        {"change": "No longer offered", "course": "BCS, BCS in DS, BCS in AI, BSE", "plan": "Replace with FIT3234 (S1 and S2)",
+         "source": "it-my", "applies_to": "malaysia"}], "sources": TEACH_OUT_SOURCES}}
+    text = "\n".join(hub.teach_out_lines(I18N, unit))
+    assert "（BCS, BCS in DS, BCS in AI, BSE）" in text and "（BCS, BSE）" not in text
+    assert "monash.edu.my/it/" in text and "www.monash.edu/it/" not in text and "澳洲" not in text
+
+
+def test_teach_out_notice_only_on_the_australian_page_says_so():
+    unit = {**UNIT_2102, "teach_out": {"entries": [
+        {"change": "Final offering S2 2027", "course": "ALL", "plan": "Replace with FIT2119 from 2028 (S1 and S2)",
+         "source": "it-au", "applies_to": "australia"}], "sources": {"it-au": TEACH_OUT_SOURCES["it-au"]}}}
+    text = "\n".join(hub.teach_out_lines(I18N, unit))
+    assert "只有澳洲校区的页面写了" in text and "Replace with FIT2119" in text and "www.monash.edu/it/" in text
+
+
 def test_area_of_study_card():
     assert hub.aos_codes("MMEDCHEM01介绍") == ["MMEDCHEM01"] and hub.aos_codes("FIT2102") == []
     aos = {"aos_code": "MMEDCHEM01", "title": "药物化学", "aos_type": "主修", "study_level": "本科", "credit_points": 48,
@@ -445,3 +573,12 @@ def test_guide_index_reads_every_page(monkeypatch):
     index = hub.GuideIndex()
     asyncio.run(index._load(None))
     assert index.link("https://monash.edu/p2/") == "https://monashhub.secureview.tech/guides/p2"
+
+
+def test_missing_i18n_files_are_reported_once(tmp_path, caplog):
+    from wxbot.hub_i18n import Cached
+    cached = Cached(tmp_path)
+    with caplog.at_level("WARNING", logger="wxbot.hub_i18n"):
+        assert cached.get().t("answer.col.type") is None
+        cached.get()
+    assert sum("i18n files unavailable" in r.getMessage() for r in caplog.records) == 1

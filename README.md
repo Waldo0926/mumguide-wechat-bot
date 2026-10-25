@@ -8,6 +8,7 @@
 ![SQLite](https://img.shields.io/badge/SQLite-WAL-003B57?logo=sqlite&logoColor=white)
 ![WeChat](https://img.shields.io/badge/WeChat-%E5%85%AC%E4%BC%97%E5%8F%B7%20%2B%20iLink-07C160?logo=wechat&logoColor=white)
 ![LLM: optional, quote-only](https://img.shields.io/badge/LLM-optional%2C%20quote--only-lightgrey)
+[![Docs](https://img.shields.io/badge/docs-docs.secureview.tech-1e5eff)](https://docs.secureview.tech/wechat-bot/)
 
 [中文](README.zh-CN.md) · English
 
@@ -20,6 +21,15 @@ is sent back and remembered.
 
 > Independent student project. Not affiliated with Monash University. Answers about enrolment, graduation or
 > visas must be confirmed against the university's official pages.
+
+## Try it
+
+1. In WeChat, search for the official account **马莫百科** and follow it.
+2. Send a question in Chinese as a normal message, for example `FIT2004 的先修课是什么` or `怎么申请 special consideration`. Short, specific questions work best, and a unit code helps.
+3. The reply comes back within a few seconds with the official link, so you can check the English original.
+4. If nothing matched, the bot says the question has been passed on. The owner's answer reaches you the next time you message the account, because a subscription account cannot message you first.
+
+Guide for students: [docs.secureview.tech/wechat-bot](https://docs.secureview.tech/wechat-bot/).
 
 ## How it answers
 

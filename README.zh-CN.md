@@ -8,12 +8,22 @@
 ![SQLite](https://img.shields.io/badge/SQLite-WAL-003B57?logo=sqlite&logoColor=white)
 ![WeChat](https://img.shields.io/badge/WeChat-%E5%85%AC%E4%BC%97%E5%8F%B7%20%2B%20iLink-07C160?logo=wechat&logoColor=white)
 ![大模型：可选，只摘原文](https://img.shields.io/badge/%E5%A4%A7%E6%A8%A1%E5%9E%8B-%E5%8F%AF%E9%80%89%EF%BC%8C%E5%8F%AA%E6%91%98%E5%8E%9F%E6%96%87-lightgrey)
+[![文档](https://img.shields.io/badge/%E6%96%87%E6%A1%A3-docs.secureview.tech-1e5eff)](https://docs.secureview.tech/zh-cn/wechat-bot/)
 
 中文 · [English](README.md)
 
 「马莫百科」公众号（服务 Monash University Malaysia 的同学）的微信问答机器人。同学关注公众号后直接发问，机器人用中文回答，**主路径靠规则，不用大模型、不花 token**，并且总是附上官网链接，方便同学核对英文原文。答不上来的问题会转给作者，作者的回复会发回给提问人，并被机器人记住。另有一个可选的 RAG 模式（代码里默认关闭，线上从 2026-10-24 起打开）：规则答不上时，让免费的大模型从同样的资料里摘出能回答问题的原句，程序逐字核对后才发。
 
 > 学生个人项目，与 Monash University 无官方隶属关系。涉及选课、毕业、签证的决定请以学校官方页面为准。
+
+## 怎么用
+
+1. 微信搜公众号 **马莫百科**，关注。
+2. 像平时聊天一样用中文发问题，比如 `FIT2004 的先修课是什么`、`怎么申请 special consideration`。问题短一点、具体一点最好，带课号更准。
+3. 几秒内回复，附官网链接，可以去核对英文原文。
+4. 答不上时会告诉你已转给作者。作者的回复要等你下一次给公众号发消息时才能看到，因为订阅号不能主动发消息。
+
+给同学看的使用说明：[docs.secureview.tech/zh-cn/wechat-bot](https://docs.secureview.tech/zh-cn/wechat-bot/)。
 
 ## 它怎么回答
 

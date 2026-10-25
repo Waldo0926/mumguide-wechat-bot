@@ -59,6 +59,30 @@ Two WeChat channels, because each can do only part of the job:
 | iLink "ClawBot" (Tencent's official personal-bot API) | the owner only | private to the account that scanned the QR code; cannot be shared or join groups, so it is the admin console and the alert channel |
 | MonashGuide personal account via jwping/wxbot (`wxbot/pcwx.py`) | group chats, private chats | answers when @-ed in a group; unofficial, so it is a separate small account (ban risk accepted by the owner). With `WXBOT_OWNER_WXID` set, 待答 notes go to the owner's WeChat through it, and alerts fall back to it when ClawBot is down |
 
+## Why quote-only, and not a usual RAG bot
+
+Most chat bots on WeChat let a model write the reply. [CowAgent](https://github.com/zhayujie/CowAgent) (formerly chatgpt-on-wechat), the best-known open-source one, describes its pipeline as an agent that reasons over memory, knowledge and tools, after which "Models generate the response". Attaching sources to a generated reply does not stop a sentence that no source says: an audit of four generative search engines ([Liu, Zhang and Liang, Findings of EMNLP 2023](https://aclanthology.org/2023.findings-emnlp.467/)) found only 51.5% of generated sentences fully supported by their citations.
+
+For students and parents asking about visas, enrolment or graduation, a confident extra step is worse than no answer. So this bot answers from rules first, and when it does call a model, the model may only point at sentences. Code checks each one against its passage before anything is sent.
+
+| | A model writes the reply | This bot |
+| --- | --- | --- |
+| Where a reply comes from | Model output, with sources attached | A taught Q&A, a Handbook field, an article, or sentences copied from a passage |
+| A sentence no source says | Can get through | Dropped by the word-for-word check |
+| Nothing fits | Depends on the prompt | The question goes to a person |
+| Cost per message | A model call | Rules cost nothing; the optional model runs on a free tier |
+
+What the check does, from the latest runs in [docs/EVAL.md](docs/EVAL.md) (50 questions, 2026-10-25, `rule-r8` and `rag-qwen3.8-27b-r8`):
+
+| | Rules only | Rules + quote-only model |
+| --- | --- | --- |
+| Questions with no answer in any source left unanswered (sent to a person) | 1 of 7 | 6 of 7 |
+| Model calls where the code removed at least one quote | - | 8 of 29 |
+| Model calls where no quote could be sent, so the question went to a person | - | 2 of 29 |
+| Replies over the 4 s WeChat budget | 0 of 50 | 0 of 50 |
+
+The correctness column in EVAL.md is marked by a judge model and does not catch an added step, so it is not quoted here.
+
 ## Rules first, a model only as an option
 
 Monash Hub is deliberately generative-AI-free, and so is this bot's main path: matching is jieba words + CJK character

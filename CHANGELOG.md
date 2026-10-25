@@ -5,7 +5,20 @@ There are no version numbers yet; the bot is deployed from `main` with `deploy/p
 
 ## 2026-10-25
 
+### Changed / 修改
+- **No guess when the model fails.** When Groq's free tier answered 429, the RAG step errored and the bot sent the
+  rules' weak guess, such as "你问的是不是…" for "马莫和诺丁汉哪个好" and unrelated official pages for "计算机专业毕业起薪多少".
+  Now a weak Q&A match, or only the Hub's loosely related pages, goes to the owner whenever the model gives no checked
+  answer (error, timeout, no quote, or no passage close enough to ask it). An article or the Hub's FAQ is still sent. /
+  模型出错时不再瞎猜：Groq 免费额度返回 429 时，RAG 出错，机器人就发规则的弱匹配，比如「马莫和诺丁汉哪个好」回「你问的是不是…」，「计算机专业毕业起薪多少」回一串不相关的官方页面。现在只要模型没给出核对过的答案（出错、超时、没摘到句子、或者没有够近的资料可问），弱匹配的问答和只有相关官方页面的答案都转给作者。公众号文章和 Hub FAQ 的答案照常发。
+
 ### Added / 新增
+- **Choosing units for a year, and the visa during exchange**, in the owner's words. "莫纳什的选课是一学期一学期的选吗"
+  got an Australian summer-semester sentence: WES usually needs the whole year (4 units in each semester) before it
+  submits, changes are possible until Friday of Week 2, and S1 comes first because class times are chosen before the
+  semester. "交换需要消签吗" went to the owner: students coming back to Malaysia should renew and keep the Student Pass,
+  and the destination's visa is separate. "毕业要销签吗" and "学生签证要注销吗" now reach the graduation Q&A, which says
+  how to cancel the Student Pass (the last one used to match the part-time work Q&A). / 按作者的话新增两条问答：「莫纳什的选课是一学期一学期的选吗」以前摘的是澳洲夏季学期的一句，现在答 WES 一般要先选满一整年（两个学期各 4 门）才能提交，第 2 周周五前能自己调整，先定 S1 的课，因为开学前要选上课时间。「交换需要消签吗」以前转给作者，现在答交换后还回马莫读的建议续签保留 Student Pass，目的地签证另外申请。「毕业要销签吗」「学生签证要注销吗」现在命中毕业问答里注销 Student Pass 的说明（后者以前会匹配到打工问答）。
 - **Several messages the bot cannot answer reach the owner as one note.** On 2026-10-24 a student's question in
   three short messages became three 待答 notes, and the owner had to piece them together. The note now waits until
   the asker has sent nothing for 90 seconds (`WXBOT_PENDING_QUIET_S`) and has every line the bot could not answer,
@@ -57,6 +70,14 @@ There are no version numbers yet; the bot is deployed from `main` with `deploy/p
   / 第八轮评测没答上的问题加了 7 条问答，都按马莫官网原文写：国际生医疗保险（Generali、MiCare、怎么理赔）、放假时间在哪查（Principal Dates）、退课（census date、WD-LATE / WD-FAIL、SORS 表格）、校内 eExam 要带什么、欠费和 encumbrance、Sunway 免费穿梭巴士、PTPTN（只有马来西亚公民能申请）。“怎么退课”从选课问答移到新的退课问答，“校车”“shuttle bus”“穿梭巴士”从交通问答移到校车问答。“作业交完要注意什么”和“student pass什么时候可以续”加成交作业和续签问答的问法。
 
 ### Fixed / 修复
+- **Degrees ignored the Handbook year.** "C2001 2026年要学什么" got the 2027 Handbook card, and so did every degree
+  while `WXBOT_HUB_YEAR` pins 2026 for units. Degrees now use the same year as units; a year that does not list the
+  degree falls back to the Hub's default year and says which year was asked for. / 专业不看 Handbook 年份：「C2001 2026年要学什么」回的是 2027 版，`WXBOT_HUB_YEAR` 设成 2026 时课程按 2026 答，专业却一律是 2027 版。现在专业和课程用同一个年份；那一年没有这个专业时，改用 Hub 默认年份，并说明问的那年没有。
+- **Degree codes that look like a year.** Since the Handbook year could be typed in the question (#36, 2026-10-24),
+  the digits of B2026 or M2018 were read as the year 2026 or 2018, the degree was lost, and "B2026要学什么课" and
+  "m2018属于哪个faculty" went to the owner (they were answered on 2026-10-07 and 2026-10-23). Degree codes are now kept
+  like unit codes. Found by the evaluation on 50 real questions. / 专业代码被当成年份：#36（10-24，可以在问题里写 Handbook
+  年份）之后，B2026、M2018 里的数字被当成 2026 年、2018 年去掉，专业就查不到了，「B2026要学什么课」「m2018属于哪个faculty」转给了作者（10-07 和 10-23 还能答）。现在专业代码和课程代码一样先保留。用 50 道真实问题评测时发现。
 - **RAG kept dropping right sentences.** Found in the eighth evaluation round:
   - A sentence naming a past year was dropped even when the rule still runs ("2025 年 3 月 1 日起…过渡期到 2026 年
     12 月 31 日" for the hurdle question). Now it is dropped only when all of its years are past.
@@ -402,7 +423,7 @@ There are no version numbers yet; the bot is deployed from `main` with `deploy/p
 
 ## 2026-10-02 (4)
 
-### Changed / 变更
+### Changed / 修改
 - Article answers say "“马莫百科”公众号相关文章" (the group bot is itself called 马莫百科, so "马莫百科相关文章" read as its own).
   / 文章类回答改称「“马莫百科”公众号相关文章」，避免和机器人自己的昵称混淆。
 - **The owner is asked where the question was asked.** With `WXBOT_OWNER_WXID` set: a group question the bot cannot answer
@@ -453,7 +474,7 @@ There are no version numbers yet; the bot is deployed from `main` with `deploy/p
 
 ## 2026-10-02
 
-### Changed / 变更
+### Changed / 修改
 - **"FIT2102学什么" now answers with the unit itself**: summary, learning outcomes, assessment, offerings, prerequisites,
   then the Handbook and Monash Hub links (≤ 1500 bytes), instead of only a link. Monash Hub's `/ask` returns a bare
   link block for a unit code with no intent keyword; the bot now fetches `/units/{code}?locale=zh`.

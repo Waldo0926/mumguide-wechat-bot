@@ -176,8 +176,9 @@ def year_notice(code: str, missing: int | None, year: int | None) -> str | None:
 
 
 # A Handbook year typed in the question: "FIT2102 2026", "2026版", "2026 年的 FIT2102", or 今年/明年/去年.
-# Unit codes are taken out first, so the 2004 in FIT2004 is not a year.
+# Unit and degree codes are taken out first, so the 2004 in FIT2004 and the 2026 in B2026 are not years.
 _UNIT_IN_TEXT = re.compile(r"(?<![A-Za-z0-9])[A-Za-z]{3,4}\s?-?\s?[0-9]{4}(?![A-Za-z0-9])")
+_CODE_IN_TEXT = re.compile(_UNIT_IN_TEXT.pattern + r"|(?<![A-Za-z0-9])[ABCDEFLMPSabcdeflmps][0-9]{4}(?![A-Za-z0-9])")
 _YEAR_WORD = re.compile(r"(?<![0-9])(20[1-3][0-9])(?![0-9])\s*(?:年版|年的|年|版)?|今年|明年|去年")
 
 
@@ -195,7 +196,7 @@ def split_year(question: str) -> tuple[str, int | None]:
 
     kept: list[str] = []
     pos = 0
-    for code in _UNIT_IN_TEXT.finditer(question):
+    for code in _CODE_IN_TEXT.finditer(question):
         kept.append(_YEAR_WORD.sub(take, question[pos:code.start()]))
         kept.append(code.group(0))
         pos = code.end()
@@ -826,9 +827,16 @@ def _down(status: int) -> bool:
     return status == 0 or status >= 500
 
 
-async def ask_course(session: aiohttp.ClientSession, code: str, budget: _Budget | float = 2.5
-                     ) -> HubAnswer | HubError:
-    status, course = await _call(session, "GET", f"/courses/{code}", budget, params={"locale": "zh"})
+async def ask_course(session: aiohttp.ClientSession, code: str, budget: _Budget | float = 2.5,
+                     year: int | None = None) -> HubAnswer | HubError:
+    """year: as for units (typed in the question or WXBOT_HUB_YEAR). The Hub answers an explicit year
+    strictly, so a degree that year does not list is read from the Hub's default year, saying so."""
+    params = {"locale": "zh", **({"year": year} if year else {})}
+    status, course = await _call(session, "GET", f"/courses/{code}", budget, params=params)
+    if status == 404 and year:
+        status, course = await _call(session, "GET", f"/courses/{code}", budget, params={"locale": "zh"})
+        if course and course.get("academic_year") != year:
+            course["not_in_year"] = year
     if status == 404:
         return course_not_found(code)
     if not course:
@@ -857,8 +865,8 @@ async def find_unit(session: aiohttp.ClientSession, question: str, budget: _Budg
     return None, unit_candidates(results, found.get("total") or len(results), phrase)
 
 
-async def find_course(session: aiohttp.ClientSession, question: str, budget: _Budget | float
-                      ) -> HubAnswer | None:
+async def find_course(session: aiohttp.ClientSession, question: str, budget: _Budget | float,
+                      year: int | None = None) -> HubAnswer | None:
     phrase = name_phrase(question)
     if not phrase:
         return None
@@ -872,7 +880,7 @@ async def find_course(session: aiohttp.ClientSession, question: str, budget: _Bu
                                             "year": int(found["academic_year"]) - 1})
         chosen = pick((older or {}).get("results") or [], phrase)
     if chosen:
-        answer = await ask_course(session, chosen["course_code"], budget)
+        answer = await ask_course(session, chosen["course_code"], budget, year)
         return answer if isinstance(answer, HubAnswer) else None
     if results:
         return course_candidates(results, found.get("total") or len(results), phrase)
@@ -892,7 +900,7 @@ async def ask(session: aiohttp.ClientSession, question: str, timeout: float = 2.
     unit_like = bool(_UNIT_IN_TEXT.search(question))
     courses = [] if unit_like else course_codes(question)
     if courses:
-        return await ask_course(session, courses[0], budget)
+        return await ask_course(session, courses[0], budget, year)
     for code in ([] if unit_like else aos_codes(question)[:1]):
         status, aos = await _call(session, "GET", f"/courses/aos/{code}", budget, params={"locale": "zh"})
         if aos:
@@ -911,7 +919,7 @@ async def ask(session: aiohttp.ClientSession, question: str, timeout: float = 2.
 
     found: HubAnswer | None = None
     if has_cue(question, DEGREE_CUES):
-        found = await find_course(session, question, budget)
+        found = await find_course(session, question, budget, year)
     elif has_cue(question, UNIT_CUES):
         unit, found = await find_unit(session, question, budget, year)
         if unit:

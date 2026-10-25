@@ -81,8 +81,10 @@ never for a unit or degree code:
    says the passages do not answer the question, or none of its quotes can be sent, a weak rule match is not sent either:
    the question goes to the owner. The owner's rule (2026-10-24) is better "不知道" than a wrong procedure, and free
    models asked to answer in their own words added steps no passage has.
-4. On the 公众号 a question the rules did answer waits only for what is left of the 4 s budget; a timeout or an error
-   falls back to the rules' answer. A call that ran late still finishes and is cached (7 days), so asking again is instant.
+4. On the 公众号 a question the rules did answer waits only for what is left of the 4 s budget. On a timeout or an
+   error (Groq's free tier answers 429 when several questions come at once), an article or the Hub's FAQ is still sent,
+   but a weak Q&A match or a list of loosely related pages is not, since nothing checked it: the question goes to the
+   owner. A call that ran late still finishes and is cached (7 days), so asking again is instant.
 
 Turning it on sends the question text (no user id) to the model's provider. How well it does against the rules is
 measured in [docs/EVAL.md](docs/EVAL.md): `python -m wxbot eval --mode rule|rag [--judge]` runs the 50 questions in

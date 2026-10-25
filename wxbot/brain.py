@@ -266,8 +266,8 @@ class Brain:
         question the rules did answer may take in all (a 公众号 reply); one with no answer waits up to
         WXBOT_LLM_TIMEOUT either way."""
         start = time.monotonic()
-        reply, route, detail, sure = await self._rules(question)
-        if sure or self.rag is None or codes_in(question):
+        reply, route, detail, level = await self._rules(question)
+        if level == "sure" or self.rag is None or codes_in(question):
             return reply, route, detail
         has_answer = route not in ("miss", "hub_down")
         timeout = config.LLM_TIMEOUT
@@ -283,13 +283,19 @@ class Brain:
         if got.unsure:
             # The owner's call (2026-10-24): when the model read the best passages and found no answer, a
             # weak rule match ("你问的是不是…", a list of loosely related pages) is likely off too, so the
-            # question goes to the owner instead. A slow or failing model still falls back to the rules.
+            # question goes to the owner instead.
+            return None, "miss", f"{detail} | rag {got.detail}".strip()
+        if level == "guess":
+            # The model failed (Groq's free tier answers 429 when several questions come at once), timed out,
+            # quoted nothing, or no passage was close enough to ask it: nothing checked the guess, so it goes
+            # to the owner too. A fair rule answer (an article, the Hub's FAQ) is still sent.
             return None, "miss", f"{detail} | rag {got.detail}".strip()
         return reply, route, f"{detail} | rag {got.detail}".strip()
 
-    async def _rules(self, question: str) -> tuple[str | None, str, str, bool]:
-        """The model-free answer: (reply or None, route, detail, sure). sure: a strong taught answer or
-        a strong Monash Hub answer, which nothing else is asked to improve on."""
+    async def _rules(self, question: str) -> tuple[str | None, str, str, str]:
+        """The model-free answer: (reply or None, route, detail, level). level is "sure" for a strong taught
+        answer or a strong Monash Hub answer, which nothing else is asked to improve on; "guess" for a weak
+        taught match ("你问的是不是…") or only the Hub's loosely related pages; "fair" otherwise."""
         hub.guides.refresh_soon(self.http)
         qa = self.kb.match_qa(question)
         top = qa[0] if qa else None
@@ -300,14 +306,14 @@ class Brain:
             top = None
         if top and top.score >= config.QA_STRONG and clear_lead(qa, config.QA_MARGIN):
             self.kb.hit(top.id)
-            return self._with_hub(self._fmt_qa(top, unsure=False), question), "qa", f"qa#{top.id} {top.score:.2f}", True
+            return self._with_hub(self._fmt_qa(top, unsure=False), question), "qa", f"qa#{top.id} {top.score:.2f}", "sure"
 
         h = await hub.ask(self.http, question)
         hub_down = isinstance(h, hub.HubError)
         if hub_down:
             h = None
         if h and h.strength == "strong":
-            return self._with_hub(h.text, question), "hub", h.answer_type, True
+            return self._with_hub(h.text, question), "hub", h.answer_type, "sure"
 
         arts = [m for m in self.kb.match_articles(question, limit=2) if m.score >= config.ARTICLE_MIN]
         arts = [m for m in arts if m.score >= 0.8 * arts[0].score]
@@ -316,7 +322,7 @@ class Brain:
             reply = self._fmt_qa(top, unsure=True)
             if arts:
                 reply += "\n\n" + self._fmt_articles(arts)
-            return self._with_hub(reply, question), "qa", f"qa#{top.id} {top.score:.2f} (weak)", False
+            return self._with_hub(reply, question), "qa", f"qa#{top.id} {top.score:.2f} (weak)", "guess"
 
         parts, route = [], []
         # A clearly matching 马莫百科 article is usually closer than Monash Hub's nearest FAQ,
@@ -339,12 +345,12 @@ class Brain:
             body = self._with_hub("\n\n".join(parts), question, sep="\n\n")
             detail = " ".join(filter(None, [h.answer_type if h else "", f"{len(arts)} articles" if arts else ""]))
             return (body + "\n\n如果没解决你的问题，回复「人工」我帮你转给 " + config.OWNER_NAME + "。",
-                    "+".join(route), detail, False)
+                    "+".join(route), detail, "guess" if route == ["hub"] and h.strength == "weak" else "fair")
         if hub_down:
             # Monash Hub is restarting or unreachable: a passing outage, not a question for Waldo
             # (alerts.py already tells him the Hub is down).
-            return HUB_DOWN, "hub_down", "", False
-        return None, "miss", "", False
+            return HUB_DOWN, "hub_down", "", "fair"
+        return None, "miss", "", "fair"
 
     # -- entry point ------------------------------------------------------------------------------
     def _as_answer(self, text: str, quoted: str) -> str | None:

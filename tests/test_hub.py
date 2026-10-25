@@ -275,6 +275,10 @@ def test_year_words_in_the_question():
     assert hub.split_year("明年 FIT2102 开吗") == ("FIT2102 开吗", this + 1)
     assert hub.split_year("今年FIT2102开吗") == ("FIT2102开吗", this)
     assert hub.split_year("1958年建校") == ("1958年建校", None)                   # not a Handbook year
+    # Degree codes too: B2026 and m2018 were read as the year 2026 and 2018 and the degree was lost (#36).
+    assert hub.split_year("B2026要学什么课") == ("B2026要学什么课", None)
+    assert hub.split_year("m2018属于哪个faculty") == ("m2018属于哪个faculty", None)
+    assert hub.split_year("S2020 2026年 要学什么") == ("S2020 要学什么", 2026)
 
 
 def test_year_asked_in_the_question_is_the_year_answered(monkeypatch):
@@ -429,8 +433,14 @@ def _fake_hub2(down: bool = False):
 
     async def course(request):
         code = request.match_info["code"]
+        if code == "B2026":             # a degree code whose digits look like a year
+            return web.json_response(dict(COURSE_C2001, course_code="B2026", title="商业与贸易学士"))
         if code != "C2001":
             return web.json_response({}, status=404)
+        year = request.query.get("year")
+        if year:                        # the Hub answers an explicit year strictly
+            return web.json_response(dict(COURSE_C2001, not_in_year=None)) if year == "2026" else \
+                web.json_response({}, status=404)
         return web.json_response(COURSE_C2001)
     app = web.Application()
     app.router.add_post("/ask", ask)
@@ -473,6 +483,18 @@ def test_degree_by_code_and_by_name(monkeypatch):
     by_name = _run2(monkeypatch, "计算机科学学士要修多少学分")          # found in the year before the default
     assert by_name.answer_type == "course_overview" and "144 学分" in by_name.text
     assert _run2(monkeypatch, "C9999 是什么").answer_type == "course_not_found"
+    b2026 = _run2(monkeypatch, "B2026要学什么课")
+    assert b2026.answer_type == "course_overview" and "B2026 · 商业与贸易学士" in b2026.text
+
+
+def test_a_degree_is_read_from_the_year_asked_for(monkeypatch):
+    asked = _run2(monkeypatch, "C2001 2026年要学什么")
+    assert "（BCompSci，2026 Handbook）" in asked.text and "不在" not in asked.text
+    # A year that does not list the degree: the Hub's default year, saying which year was asked for.
+    older = _run2(monkeypatch, "C2001 2025年要学什么")
+    assert "C2001 不在 2025 年 Handbook 中" in older.text and "以下是 2026 年 Handbook 的内容" in older.text
+    monkeypatch.setattr(config, "HUB_YEAR", 2026)                 # WXBOT_HUB_YEAR, as on the VPS
+    assert "不在" not in _run2(monkeypatch, "C2001 是什么学位").text
 
 
 def test_hub_down_is_an_error_not_a_miss(monkeypatch):

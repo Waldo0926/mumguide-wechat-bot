@@ -357,7 +357,8 @@ def test_a_weak_rule_answer_on_the_public_account_only_waits_for_the_reply_budge
     async def steps(b):
         return await b.answer("签证续签", brain_mod.MP_BUDGET_S), await b.answer("签证续签")
     (mp_reply, mp_route, mp_detail), (reply, route, _) = run(kb, fake, steps, monkeypatch)
-    assert mp_route == "qa" and "你问的是不是" in mp_reply and "timeout" in mp_detail
+    # The model had no time to check the guess, so the owner gets the question instead of "你问的是不是…".
+    assert mp_route == "miss" and mp_reply is None and "(weak)" in mp_detail and "timeout" in mp_detail
     assert route == "rag"                   # elsewhere it may wait for the model (and the cache has it now)
 
 
@@ -370,14 +371,37 @@ def test_a_weak_rule_answer_is_withheld_when_the_model_finds_no_answer_in_the_pa
         outs = await b.handle(USER, "签证续签")
         again = await b.answer("签证续签")          # from the cache: still withheld
         fake.status = 500
-        failing = await b.answer("签证续签 要多久")    # a failing model still falls back to the rules
+        failing = await b.answer("签证续签 要多久")    # a failing model checked nothing: still withheld
         return outs, again, failing
     outs, again, failing = run(kb, fake, steps, monkeypatch)
     assert {o.to for o in outs} == {USER} and kb.open_pending() and "答不上来" in outs[0].text   # the usual 待答
     route, detail = kb.db.execute("SELECT route, detail FROM log").fetchone()
     assert route == "miss" and "(weak)" in detail and "unsure" in detail
     assert again[0] is None and again[2].endswith("cached")
-    assert failing[1] == "qa" and "你问的是不是" in failing[0] and "error" in failing[2]
+    assert failing[0] is None and failing[1] == "miss" and "error" in failing[2]
+
+
+def test_a_rate_limited_model_sends_no_guess_but_a_fair_rule_answer_still_goes_out(kb, monkeypatch):
+    site = config.HUB_SITE
+    answers = {
+        "马莫和诺丁汉哪个好": hub.HubAnswer("weak", f"Monash Hub 里找到这些相关的官方页面：\n📘 {site}/guides/a",
+                                     "official_search"),
+        "签证材料有哪些": hub.HubAnswer("medium", "签证要护照、录取信和体检报告。", "official_faq"),
+    }
+
+    async def fake_hub(http, q, **kw):
+        return answers.get(q)
+    monkeypatch.setattr(hub, "ask", fake_hub)
+    kb.add_qa("签证续签要等多久才能拿到新签证", "大约两到四周。")
+    fake = FakeLLM()
+    fake.status = 429
+
+    async def steps(b):
+        return [await b.answer(q) for q in ("签证续签", "马莫和诺丁汉哪个好", "签证材料有哪些")]
+    weak_qa, pages, faq = run(kb, fake, steps, monkeypatch)
+    assert weak_qa[:2] == (None, "miss") and "(weak)" in weak_qa[2] and "error" in weak_qa[2]
+    assert pages[:2] == (None, "miss") and "official_search" in pages[2]
+    assert faq[1] == "hub" and "录取信" in faq[0] and "error" in faq[2]
 
 
 def test_a_reply_with_no_quote_from_the_passages_goes_to_the_owner(kb, monkeypatch):

@@ -244,5 +244,5 @@ so the issue and pull request numbers in the changelog refer to that repository.
 
 ## License
 
-Copyright (c) 2026 Shuoxun Wen. All rights reserved. The source is public for portfolio review and code
+Copyright (c) 2026 Waldo (github.com/Waldo0926). All rights reserved. The source is public for portfolio review and code
 inspection only; see [LICENSE](LICENSE).

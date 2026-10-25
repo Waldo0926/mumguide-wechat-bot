@@ -186,4 +186,4 @@ docs/           运维手册（中文 / English）
 
 ## 许可证
 
-Copyright (c) 2026 Shuoxun Wen，保留所有权利。源码公开只供作品展示和代码查看，见 [LICENSE](LICENSE)。
+Copyright (c) 2026 Waldo (github.com/Waldo0926)，保留所有权利。源码公开只供作品展示和代码查看，见 [LICENSE](LICENSE)。

@@ -13,6 +13,10 @@ There are no version numbers yet; the bot is deployed from `main` with `deploy/p
   模型出错时不再瞎猜：Groq 免费额度返回 429 时，RAG 出错，机器人就发规则的弱匹配，比如「马莫和诺丁汉哪个好」回「你问的是不是…」，「计算机专业毕业起薪多少」回一串不相关的官方页面。现在只要模型没给出核对过的答案（出错、超时、没摘到句子、或者没有够近的资料可问），弱匹配的问答和只有相关官方页面的答案都转给作者。公众号文章和 Hub FAQ 的答案照常发。
 
 ### Added / 新增
+- **Cancelling the Student Pass, on its own.** "毕业要销签吗" reached the graduation Q&A, where the steps were in the
+  fourth paragraph. They are now their own Q&A, with the same text. "学生签证要注销吗" and "销签" now get a list by case
+  (graduating, exchange, leaving or transferring, intermission, changing degree), each line from an existing Q&A and
+  naming it. The graduation Q&A keeps its text. / 销签单独成一条：「毕业要销签吗」以前命中毕业问答，怎么销签写在第 4 段。现在单独一条，内容原样。「学生签证要注销吗」「销签」按情况列出（毕业、交换、退学或转学、休学、转专业），每行都来自已有问答并写明去问哪条。毕业问答原文不变。
 - **Choosing units for a year, and the visa during exchange**, in the owner's words. "莫纳什的选课是一学期一学期的选吗"
   got an Australian summer-semester sentence: WES usually needs the whole year (4 units in each semester) before it
   submits, changes are possible until Friday of Week 2, and S1 comes first because class times are chosen before the

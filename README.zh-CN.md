@@ -1,6 +1,7 @@
 # MUMGuide WeChat Bot：马莫百科问答机器人
 
 [![Tests](https://github.com/Waldo0926/mumguide-wechat-bot/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/Waldo0926/mumguide-wechat-bot/actions/workflows/tests.yml)
+[![在线率](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FWaldo0926%2Fuptime%2FHEAD%2Fapi%2Fmumguide-bot%2Fuptime.json)](https://waldo0926.github.io/uptime/history/mumguide-bot)
 [![License](https://img.shields.io/badge/License-All_Rights_Reserved-dc2626)](LICENSE)
 ![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white)
 ![aiohttp](https://img.shields.io/badge/aiohttp-3.9%2B-2C5BB4?logo=aiohttp&logoColor=white)

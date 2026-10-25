@@ -1,0 +1,15 @@
+[Unit]
+Description=WeChat bot - consistent copy of kb.sqlite into data/backups (keeps 14)
+
+[Service]
+Type=oneshot
+User=wxbot
+Group=wxbot
+WorkingDirectory=/opt/wechat-bot
+Environment=WXBOT_HOME=/opt/wechat-bot
+ExecStart=/opt/wechat-bot/venv/bin/python -m wxbot backup --keep 14
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ReadWritePaths=/opt/wechat-bot/data

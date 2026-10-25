@@ -37,6 +37,7 @@ STRENGTH = {
     "subjective": "strong",
     "official_faq": "medium",
     "official_search": "weak",
+    "community_fallback": "weak",
 }
 MAX_TEXT = 300
 MAX_ROWS = 6
@@ -174,6 +175,63 @@ def year_notice(code: str, missing: int | None, year: int | None) -> str | None:
             f"规划明年选课前请向学院确认。")
 
 
+# A Handbook year typed in the question: "FIT2102 2026", "2026版", "2026 年的 FIT2102", or 今年/明年/去年.
+# Unit codes are taken out first, so the 2004 in FIT2004 is not a year.
+_UNIT_IN_TEXT = re.compile(r"(?<![A-Za-z0-9])[A-Za-z]{3,4}\s?-?\s?[0-9]{4}(?![A-Za-z0-9])")
+_YEAR_WORD = re.compile(r"(?<![0-9])(20[1-3][0-9])(?![0-9])\s*(?:年版|年的|年|版)?|今年|明年|去年")
+
+
+def split_year(question: str) -> tuple[str, int | None]:
+    """(the question without the year words, the Handbook year asked for or None)."""
+    year: int | None = None
+
+    def take(m: re.Match[str]) -> str:
+        nonlocal year
+        if year is None:
+            word = m.group(0)
+            this = time.localtime().tm_year
+            year = int(m.group(1)) if m.group(1) else this + {"今年": 0, "明年": 1, "去年": -1}[word]
+        return " "
+
+    kept: list[str] = []
+    pos = 0
+    for code in _UNIT_IN_TEXT.finditer(question):
+        kept.append(_YEAR_WORD.sub(take, question[pos:code.start()]))
+        kept.append(code.group(0))
+        pos = code.end()
+    kept.append(_YEAR_WORD.sub(take, question[pos:]))
+    return " ".join("".join(kept).split()), year
+
+
+def wanted_year(question: str) -> tuple[str, int | None]:
+    """The year to ask the Hub for: one typed in the question, else WXBOT_HUB_YEAR, else None (the
+    Hub's default). Also the question with the year words removed, so they are not search keywords."""
+    clean, year = split_year(question)
+    return clean, year or config.HUB_YEAR
+
+
+def years_hint(code: str, shown: int | None, available: list[int] | None) -> str | None:
+    """Other Handbook years that list the unit, and how to ask for one. Up to two, newest first."""
+    others = [int(y) for y in available or [] if y and int(y) != shown][:2]
+    if not others:
+        return None
+    return f"📅 {code} 还有 {' / '.join(map(str, others))} 年的 Handbook，回复「{code} {others[0]}」查看"
+
+
+def community_lines(data: dict[str, Any], limit: int = 2) -> list[str]:
+    """Monash Hub's related community posts: student experience, so always labelled as such and
+    never the first thing in a reply. Solved threads first, then ones with answers."""
+    posts = [p for p in data.get("related_community") or [] if isinstance(p, dict) and p.get("id") and p.get("title")]
+    posts = [p for p in posts if p.get("is_solved")] + [p for p in posts if not p.get("is_solved") and p.get("answer_count")]
+    if not posts:
+        return []
+    lines = ["💬 社区里相关的讨论（学生经验，非官方）："]
+    for p in posts[:limit]:
+        state = "已解决" if p.get("is_solved") else f"{p['answer_count']} 个回答"
+        lines.append(f"· {_brief(str(p['title']), 40)}（{state}）{config.HUB_SITE}/community/post/{p['id']}")
+    return lines
+
+
 def format_answer(data: dict[str, Any], i18n: HubI18n | None = None, notice: str | None = None) -> HubAnswer | None:
     i18n = i18n or _i18n.get()
     atype = data.get("answer_type") or ""
@@ -211,8 +269,15 @@ def format_answer(data: dict[str, Any], i18n: HubI18n | None = None, notice: str
             machine = machine or p.get("translation")
         if machine:
             lines.append("ℹ️ 标题和摘要为翻译，以官网英文原文为准。")
+        lines.extend(community_lines(data))
         lines.extend(_suggestions(data))
         return HubAnswer(strength, "\n".join(lines), atype)
+
+    if atype == "community_fallback":
+        # Nothing official: the Hub offers community threads only. Worth a reply when there are some
+        # (the asker can still say 人工); otherwise it is a miss, as before.
+        lines = community_lines(data)
+        return HubAnswer(strength, "\n".join(lines), atype) if lines else None
 
     title = i18n.say(data.get("title_key"), data.get("title"), data.get("title_params"))
     lines.append(f"最接近的官方说明：{title}" if atype == "official_faq" else title)
@@ -233,6 +298,7 @@ def format_answer(data: dict[str, Any], i18n: HubI18n | None = None, notice: str
             label = "Handbook 官网" if s.get("kind") == "handbook" else "官网原文"
             lines.append(f"🔗 {label}：{s['url']}")
     lines.extend(_hub_links(data))
+    lines.extend(community_lines(data))
     if atype == "official_faq":
         lines.extend(_suggestions(data))
     return HubAnswer(strength, "\n".join(lines), atype)
@@ -265,12 +331,22 @@ def teach_out_lines(i18n: HubI18n, unit: dict[str, Any] | None) -> list[str]:
     entries = [e for e in notice.get("entries") or [] if e.get("change") or e.get("plan")]
     if not entries:
         return []
-    lines = ["📌 " + (i18n.t("teachOut.title") or "学院通知：这门课有变动")]
+    title = "📌 " + (i18n.t("teachOut.title") or "学院通知：这门课有变动")
+    # Each faculty page is one campus's (applies_to). FIT2004's Australian and Malaysia entries list
+    # different degrees; FIT1049's change is on the Australian page only, so it is labelled as such.
+    campus = config.HUB_CAMPUS
+    if campus and any(e.get("applies_to") for e in entries):
+        here = [e for e in entries if e.get("applies_to") in (campus, None)]
+        if not here:
+            title += "（只有澳洲校区的页面写了，马来西亚校区的页面没有列这门课）" if campus == "malaysia" else ""
+        entries = here or entries
+    lines = [title]
     for e in entries[:3]:
         who = f"（{e['course']}）" if e.get("course") else ""
         lines.append("· " + "：".join(x for x in (f"{e.get('change') or ''}{who}", e.get("plan") or "") if x))
     sources = notice.get("sources") or {}
-    url = next((v.get("url") for v in sources.values() if isinstance(v, dict) and v.get("url")), None)
+    used = [sources.get(e.get("source")) for e in entries] + list(sources.values())
+    url = next((v.get("url") for v in used if isinstance(v, dict) and v.get("url")), None)
     lines.append("学院原文照录，请向学院确认是否适用于你的校区和入学年份。" + (f"\n🔗 {url}" if url else ""))
     return lines
 
@@ -349,6 +425,8 @@ def format_overview(unit: dict[str, Any], i18n: HubI18n | None = None, missing_y
         if notice:
             lines.append(notice)
         lines.extend(teach_out_lines(i18n, unit))
+        if extras and (hint := years_hint(code, year, unit.get("available_years"))):
+            lines.append(hint)
         if _zh(unit.get("overview")):
             lines.append("📖 课程简介：" + _brief(unit["overview"], ov_n))
         outcomes = [o for o in unit.get("learning_outcomes") or [] if _zh(o.get("description"))]
@@ -634,9 +712,16 @@ class _Budget:
         return min(self.per_call, self.end - time.monotonic())
 
 
+# A call can time out only because the reply budget ran low (a slow unit search late in a 公众号 reply),
+# so one timeout is not "the Hub is down". Several in a row with nothing answering in between is.
+SLOW_ALERT_AFTER = 3
+_timeouts_in_row = 0
+
+
 async def _call(session: aiohttp.ClientSession, method: str, path: str, budget: _Budget | float, **kw: Any
                 ) -> tuple[int, Any]:
     """(HTTP status, JSON body); (0, None) when the hub cannot be reached in time."""
+    global _timeouts_in_row
     timeout = budget.left() if isinstance(budget, _Budget) else budget
     if timeout < 0.2:
         return 0, None
@@ -644,9 +729,16 @@ async def _call(session: aiohttp.ClientSession, method: str, path: str, budget: 
         async with session.request(method, f"{config.HUB_API}{path}", timeout=aiohttp.ClientTimeout(total=timeout),
                                    **kw) as resp:
             body = await resp.json() if resp.status == 200 else None
+            _timeouts_in_row = 0
             return resp.status, body
     except Exception as exc:
-        log.warning("hub %s %s failed: %s", method, path, exc or type(exc).__name__)
+        level = logging.WARNING
+        if isinstance(exc, TimeoutError):
+            _timeouts_in_row += 1
+            if _timeouts_in_row < SLOW_ALERT_AFTER:
+                level = logging.INFO
+        # str() of a timeout is empty, which made the alert end in "failed:" with no reason.
+        log.log(level, "hub %s %s failed after %.1fs: %s", method, path, timeout, str(exc) or type(exc).__name__)
         return 0, None
 
 
@@ -680,6 +772,12 @@ class GuideIndex:
         if session is None or time.monotonic() < self.next_load or (self._task and not self._task.done()):
             return
         self._task = asyncio.ensure_future(self._load(session))
+
+    async def load_now(self, session: aiohttp.ClientSession) -> None:
+        """For one-off commands like ask, which close the session before a background load could finish."""
+        self.refresh_soon(session)
+        if self._task:
+            await self._task
 
     async def _load(self, session: aiohttp.ClientSession) -> None:
         by_url: dict[str, str] = {}
@@ -738,13 +836,14 @@ async def ask_course(session: aiohttp.ClientSession, code: str, budget: _Budget 
     return format_course(course)
 
 
-async def find_unit(session: aiohttp.ClientSession, question: str, budget: _Budget | float
+async def find_unit(session: aiohttp.ClientSession, question: str, budget: _Budget | float, year: int | None = None
                     ) -> tuple[dict[str, Any] | None, HubAnswer | None]:
     """(the unit the question names, or None; a candidate list when the name is ambiguous)."""
     phrase = name_phrase(question)
     if not phrase:
         return None, None
-    status, found = await _call(session, "GET", "/units", budget, params={"q": phrase, "locale": "zh", "limit": 8})
+    params = {"q": phrase, "locale": "zh", "limit": 8, **({"year": year} if year else {})}
+    status, found = await _call(session, "GET", "/units", budget, params=params)
     results = (found or {}).get("results") or []
     if not results:
         return None, None
@@ -789,7 +888,8 @@ async def ask(session: aiohttp.ClientSession, question: str, timeout: float = 2.
       year that lists it, and say so;
     - a unit asked about by name ("编程范式有考试吗") is found by title and asked about by code."""
     budget = _Budget(budget_s, timeout)
-    unit_like = bool(re.search(r"(?<![A-Za-z0-9])[A-Za-z]{3,4}\s?-?\s?[0-9]{4}(?![A-Za-z0-9])", question))
+    question, year = wanted_year(question)
+    unit_like = bool(_UNIT_IN_TEXT.search(question))
     courses = [] if unit_like else course_codes(question)
     if courses:
         return await ask_course(session, courses[0], budget)
@@ -801,7 +901,7 @@ async def ask(session: aiohttp.ClientSession, question: str, timeout: float = 2.
             return HubError(f"/courses/aos/{code} {status}")
         # 404: letters and two digits that are not an area of study ("WEEK10"); ask as usual.
 
-    answer = await _ask(session, question, budget)
+    answer = await _ask(session, question, budget, year)
     if isinstance(answer, HubError) or unit_like:
         return answer
     if answer and answer.strength == "strong":
@@ -813,9 +913,9 @@ async def ask(session: aiohttp.ClientSession, question: str, timeout: float = 2.
     if has_cue(question, DEGREE_CUES):
         found = await find_course(session, question, budget)
     elif has_cue(question, UNIT_CUES):
-        unit, found = await find_unit(session, question, budget)
+        unit, found = await find_unit(session, question, budget, year)
         if unit:
-            by_code = await _ask(session, f"{unit['unit_code']} {question}", budget)
+            by_code = await _ask(session, f"{unit['unit_code']} {question}", budget, year)
             if isinstance(by_code, HubAnswer) and by_code.strength == "strong":
                 by_code.text = f"（按课程名找到：{unit['unit_code']} · {unit.get('title') or ''}）\n" + by_code.text
                 return by_code
@@ -827,12 +927,26 @@ async def ask(session: aiohttp.ClientSession, question: str, timeout: float = 2.
     return found or answer
 
 
-async def _ask(session: aiohttp.ClientSession, question: str, budget: _Budget) -> HubAnswer | HubError | None:
-    payload = {"query": question[:500]}
+async def _ask(session: aiohttp.ClientSession, question: str, budget: _Budget, year: int | None = None
+               ) -> HubAnswer | HubError | None:
+    """year: the Handbook year asked for (typed in the question or pinned by WXBOT_HUB_YEAR); None is the
+    Hub's default. The Hub answers an explicit year strictly, so the unit_not_found fallback below still
+    finds the latest year that lists the unit and says which year was asked for."""
+    payload = {"query": question[:500], **({"year": year} if year else {}),
+               **({"campus": config.HUB_CAMPUS} if config.HUB_CAMPUS else {})}
     status, data = await _call(session, "POST", "/ask", budget, params={"locale": "zh"}, json=payload)
     if not data:
         return HubError(f"/ask {status}") if _down(status) else None
-    code, missing, year = data.get("unit_code"), None, None
+    code, missing, asked = data.get("unit_code"), None, year
+    # One answer can need the unit page up to three times (year fallback, Chinese outcomes or workload,
+    # teach-out notice); within one budget each year's page is read once.
+    pages: dict[Any, dict[str, Any] | None] = {}
+
+    async def unit_page(page_year: Any) -> dict[str, Any] | None:
+        if page_year not in pages:
+            params = {"locale": "zh", **({"year": page_year} if page_year else {})}
+            pages[page_year] = (await _call(session, "GET", f"/units/{code}", budget, params=params))[1]
+        return pages[page_year]
 
     if data.get("answer_type") == "unit_not_found" and code:
         status, unit = await _call(session, "GET", f"/units/{code}", budget, params={"locale": "zh"})
@@ -840,7 +954,10 @@ async def _ask(session: aiohttp.ClientSession, question: str, budget: _Budget) -
             return not_found_answer(code)
         if not unit:
             return HubError(f"/units/{code} {status}")
-        missing, year = unit.get("not_in_year") or (data.get("title_params") or {}).get("year"), unit.get("academic_year")
+        missing, year = asked or unit.get("not_in_year") or (data.get("title_params") or {}).get("year"), unit.get("academic_year")
+        pages[year] = unit          # without a year the Hub serves the latest year that lists the unit
+        if missing == year:
+            missing = None
         status, data = await _call(session, "POST", "/ask", budget, params={"locale": "zh"},
                                    json={**payload, "year": year})
         if not data:
@@ -848,8 +965,7 @@ async def _ask(session: aiohttp.ClientSession, question: str, budget: _Budget) -
 
     if data.get("answer_type") in ("handbook_overview", "handbook_outcomes") and code:
         # Outcomes come back in English from /ask; the unit page has the site's Chinese for them.
-        params = {"locale": "zh", **({"year": year} if year else {})}
-        status, unit = await _call(session, "GET", f"/units/{code}", budget, params=params)
+        unit = await unit_page(year)
         if unit:
             return format_overview(unit, missing_year=missing)
 
@@ -858,8 +974,7 @@ async def _ask(session: aiohttp.ClientSession, question: str, budget: _Budget) -
         english = [b for b in data.get("blocks") or [] if b.get("type") == "text" and not _zh(b.get("text"))]
         answer_year = (data.get("title_params") or {}).get("year") or year
         if english:
-            params = {"locale": "zh", **({"year": answer_year} if answer_year else {})}
-            status, unit = await _call(session, "GET", f"/units/{code}", budget, params=params)
+            unit = await unit_page(answer_year)
             if unit and _zh(unit.get("workload_requirements")):
                 english[0]["text"] = unit["workload_requirements"]
 
@@ -867,10 +982,11 @@ async def _ask(session: aiohttp.ClientSession, question: str, budget: _Budget) -
     atype = data.get("answer_type") or ""
     if code and (atype.startswith("handbook_") or atype == "subjective"):
         # The faculty's teach-out notice ("No longer offered - replace with FIT3234") is on the unit
-        # detail, not in /ask; a student asking about FIT2004's exam needs to see it too.
+        # detail, not in /ask; a student asking about FIT2004's exam needs to see it too. The same
+        # page lists the other Handbook years for the unit (issue #6).
         answer_year = (data.get("title_params") or {}).get("year") or year
-        params = {"locale": "zh", **({"year": answer_year} if answer_year else {})}
-        status, unit = await _call(session, "GET", f"/units/{code}", budget, params=params)
+        unit = await unit_page(answer_year)
         extra = teach_out_lines(_i18n.get(), unit)
-        notice = "\n".join(x for x in [notice, *extra] if x) or None
+        hint = years_hint(code, answer_year or (unit or {}).get("academic_year"), (unit or {}).get("available_years"))
+        notice = "\n".join(x for x in [notice, *extra, hint] if x) or None
     return format_answer(data, notice=notice)

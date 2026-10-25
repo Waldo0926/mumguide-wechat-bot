@@ -1,0 +1,917 @@
+[
+ {
+  "phrases": [
+   "怎么选课",
+   "WES怎么选课",
+   "WES怎么用",
+   "怎么加课",
+   "怎么换课",
+   "选课系统在哪",
+   "WES进不去",
+   "WES提交不了",
+   "WES怎么提交",
+   "WES提交选课"
+  ],
+  "answer": "选课用 WES：https://my.monash.edu/wes/student_services\n1. 选 current students 登录。专业课从第 2 个入口进，从第 1 个入口选通常提交不了。\n2. Unit Enrolment → To Add units click here，输入课程代码（比如 FIT1055）搜索，勾选后 Add selected unit(s) to enrollment form，选学期和校区 Malaysia，点 accept。\n3. 一般要先选满一整年（两个学期各 4 门）才能提交，最后点页面底部 SUBMIT。成功后学生邮箱会收到确认邮件。\n提交不了一般是先修课不满足，去 Handbook 看这门课的要求：https://handbook.monash.edu/\n新生要先交护照，大约 1 个工作日后才有 WES 权限。第 2 周周五 WES 关闭，之后要改课找学院 EMO（线下去 Monash Connect，或线上问 MoVA：https://www.monash.edu.my/student-services/connect?chatbot=open）。\n通识课 MPU 按入学学期和本地/国际生不同（26S2 起国际生是 MPU3143、MPU3172、MPU3222、MPU3312、MPU3322、MPU3412），具体问“MPU课程要修哪些”。毕业前过 50 分就行，不算 WAM 和 GPA。",
+  "url": "https://mp.weixin.qq.com/s/8TqQOmR9EMHwwtfFiHX-Dw"
+ },
+ {
+  "phrases": [
+   "学费怎么交",
+   "怎么缴费",
+   "学费怎么付",
+   "支付宝怎么交学费",
+   "线下缴费在哪",
+   "Flywire交学费",
+   "交学费用什么方式"
+  ],
+  "answer": "学校的缴费方式都在这里：https://www.monash.edu.my/study/apply/application-form/fee-payment-methods\n线上：Visa / Mastercard、支付宝（搜“留学缴费”小程序，学校选 monash university malaysia，先上传在官网 Alipay 那一项生成的凭证图，审核过了再付款）、Flywire、本地银行转账、JomPAY（可以用 TNG）。各渠道汇率、手续费和到账时间不一样，付之前比一下，付款凭证留好。\n线下：Building 2 一楼，扫码选 Finance 取号，叫号后报学号，工作人员算好金额再刷卡。刷卡前确认银行卡开了境外支付、额度够。\n学校收到钱后会把回执发到学生邮箱。",
+  "url": "https://mp.weixin.qq.com/s/8TqQOmR9EMHwwtfFiHX-Dw"
+ },
+ {
+  "phrases": [
+   "怎么报到",
+   "新生报到流程",
+   "到学校先做什么",
+   "新生入学要做什么",
+   "在哪交护照",
+   "体检在哪集合",
+   "入境要带什么材料",
+   "刚到马来西亚要做什么"
+  ],
+  "answer": "新生按这个顺序走：机场入境 → 到校报到 → 缴费 → WES 选课 → Allocate 排课。\n入境：带护照、eVAL、eVisa、MDAC、Offer、Approval Letter，建议走人工通道并确认盖了入境章。走自助通道的话，之后去 ISP 交资料时要主动说明；没有 MDAC 可以拍护照上的入境章代替。\n到校：正门要出示 Offer。左边是 Monash Connect（原来的 Student Hub，有问题都可以来问）和 Lepak Place（体检集合点，进门右边领体检材料，提前到，有志愿者带去包车）。右边是 Building 2，一楼交护照和线下缴费。材料没带齐没法报到，排队前先检查。",
+  "url": "https://mp.weixin.qq.com/s/8TqQOmR9EMHwwtfFiHX-Dw"
+ },
+ {
+  "phrases": [
+   "怎么选上课时间",
+   "Allocate怎么用",
+   "怎么排课",
+   "课表怎么选",
+   "上课时间满了怎么办",
+   "Allocate显示Full",
+   "tutorial满了",
+   "怎么换上课时间"
+  ],
+  "answer": "选上课时间用 Allocate：https://my-timetable.monash.edu\nWES 选完课大约 2 小时后数据会同步过来，选当前学年的 Student 入口。新生只选本学期的时间，下学期开学前再选。\n先选还有空位的时段保底；想要的时段满了可以点小红心候补，有空位系统会自动帮你换并发邮件。\n显示 Full 或 Clash：找学院 Educational Management Office（EMO），任课老师没有权限加人。第 1 周去 School Helpdesk，之后线下去 Monash Connect，或线上问 MoVA（https://www.monash.edu.my/student-services/connect?chatbot=open）。\n课程时间、地点、老师可以在这里查：https://classtimetable.monash.edu/SMA2026\n课堂考试按系统上的时间参加。",
+  "url": "https://mp.weixin.qq.com/s/_E4j7ldLXni5RJLtgp_uwg"
+ },
+ {
+  "phrases": [
+   "Moodle怎么用",
+   "Moodle在哪登录",
+   "怎么看成绩",
+   "在哪看分数",
+   "Moodle看不到课",
+   "Ed怎么用",
+   "Moodle打不开",
+   "Moodle挂了",
+   "作业会发到哪里",
+   "作业发在哪",
+   "作业在哪看",
+   "去哪看作业",
+   "老师布置的作业在哪看",
+   "课件在哪下载",
+   "课件在哪看",
+   "作业要求在哪看",
+   "期末考试成绩在哪看"
+  ],
+  "answer": "Moodle 入口：https://learning.monash.edu/my/\n课件、作业提交都在这里。点课程首页上方的 Grades 能看到每项评估的分数，期末全部出分后最终成绩也在这里看。\nIT、工程等学院的课程讨论很多在 Ed：https://edstem.org/au/dashboard（登录选 Australia，用学生邮箱登录；有的课要先从 Moodle 上的论坛入口进去才能加进 Ed）。\nGPA 和 WAM 的算法推文里有例子，也可以用 Monash Hub 的 WAM 计算器。",
+  "url": "https://mp.weixin.qq.com/s/_E4j7ldLXni5RJLtgp_uwg"
+ },
+ {
+  "phrases": [
+   "怎么交作业",
+   "作业在哪交",
+   "assignment怎么提交",
+   "作业上传了算交了吗",
+   "作业交了没提交成功",
+   "作业提交",
+   "作业交完要注意什么"
+  ],
+  "answer": "作业在 Moodle 交：https://learning.monash.edu/my/ ，进对应课程找到 assignment 上传。\n上传后一定要点确认提交（Submit）！只上传不提交，老师那边可能看不到。交完回去看一眼状态是不是已提交。\n线上考试用 eAssessment：https://eassessment.monash.edu/\n具体要求以每门课 Moodle 页面上的说明为准，有问题问任课老师或在 Ed 上提问。",
+  "url": "https://mp.weixin.qq.com/s/_E4j7ldLXni5RJLtgp_uwg"
+ },
+ {
+  "phrases": [
+   "出勤怎么签到",
+   "attendance code在哪填",
+   "出勤率要求多少",
+   "忘记填attendance怎么办",
+   "签到码漏填了",
+   "出勤率",
+   "怎么签到"
+  ],
+  "answer": "出勤系统：https://attendance.monash.edu.my\n上完课点 Enter attendance code，选时间和课程，输入老师给的 Attendance Code 提交，最晚在下次上课前一天填。\n马莫的国际生出勤率要到 80% 才能续签 Student Pass，而且看的是整个学习期间。\n漏填了：线上问 MoVA（https://www.monash.edu.my/student-services/connect?chatbot=open）或线下去 Monash Connect，写清楚课程名、上课时间和那节课的 Attendance Code，请老师帮忙补上。",
+  "url": "https://mp.weixin.qq.com/s/_E4j7ldLXni5RJLtgp_uwg"
+ },
+ {
+  "phrases": [
+   "签证怎么续签",
+   "学生签证续签",
+   "续签要什么条件",
+   "续签什么时候开始",
+   "EMGS什么时候交护照",
+   "续签要多久",
+   "Special Pass是什么",
+   "续签",
+   "签证快到期了怎么办",
+   "student pass什么时候可以续",
+   "Student Pass什么时候续签"
+  ],
+  "answer": "【马来西亚校区（Student Pass）】\n最早可以在 Student Pass 到期前大约 3 个月提交，太早可能被驳回。\n条件（本科和授课型硕士）：WAM 至少 50；整个学习期间出勤率至少 80%。\n材料：MonPlan / CPP（商学院、传媒学院用 Course Map）、护照页、签证页、最近一次入境章（走 e-Gate 的附英文机票行程单），全部放进一个小于 2000 KB 的 PDF。\n申请：SORS（https://sors.monash.edu.my）→ International Students → Student Pass Renewal，上传付款凭证后提交，进度在 My Requests 看，补材料在 Communication Logs。\nEMGS 到 20% 左右留意补材料，50% 左右开始交护照。护照最晚在到期前 3 周交，处理一般留 4 到 6 周。拖太晚会走 Special Pass，可能要 2 个多月才拿回护照，近期要出境的一定提前算好时间。\n【澳洲校区】澳洲的学生签证（subclass 500）不能续签，读不完要在现有签证到期前至少 8 周重新申请一个新的学生签证，申请前要先有当前有效的 CoE。详见 https://www.monash.edu/students/support/international/visa/extend",
+  "url": "https://mp.weixin.qq.com/s/L_eLXcW_0MSQcpWlUCesTg"
+ },
+ {
+  "phrases": [
+   "入台证怎么办",
+   "去台湾要什么",
+   "入台证要什么材料",
+   "入台证申请条件",
+   "入台证的Student Letter怎么申请",
+   "入台证多次怎么申请",
+   "台湾签证怎么办"
+  ],
+  "answer": "条件：一年单次证要学生签证剩 3 个月以上；一年多次证要剩 1 年以上，并且办过单次证、去过台湾。第一次申请只能办单次（有效 3 个月，每次最多停留 15 天）。\n材料：护照首页（剩 6 个月以上）、身份证正反面、学生签证页、Student Letter、学生证彩色扫描、Student Letter 申请记录和领取通知截图、住宿凭证。\nStudent Letter：SORS（https://sors.monash.edu.my）→ Student Documents → Student Letter → Enrolment Verification（For Taipei…），付 RM53，把付款凭证上传回工单。\n申请网站：https://coa.immigration.gov.tw/coa-frontend/overseas-foreign-china ，选驻马来西亚台北经济文化办事处。文件名和填写内容都用繁体字，不然容易被要求补件。侨居身份证号码填学生签证右上角的 PG 编号。",
+  "url": "https://mp.weixin.qq.com/s/gUhzWBd5Q66N2rSf7auLnw"
+ },
+ {
+  "phrases": [
+   "怎么申请交换",
+   "交换生要什么条件",
+   "国际交换什么时候申请",
+   "交换有什么条件",
+   "交换可以去哪些大学",
+   "GIP和交换有什么区别",
+   "交换",
+   "想去交换",
+   "交换生",
+   "交换有什么要求",
+   "GIP是什么",
+   "SIA是什么",
+   "Semester in Australia",
+   "去澳洲校区读一学期"
+  ],
+  "answer": "国际交换是去 Monash 的海外合作院校读 1 到 2 个学期，期间还是 Monash Malaysia 学生，学费照常交给 MUM。官网：https://www.monash.edu.my/study-abroad/outbound/exchange-program\n条件：WAM 至少 60%（只是基本线，还看名额和合作院校要求）。非工程本科生申请时要修完 18 学分、出发前 36 学分；工程本科生要 48 个 ENG 学分并分好专业方向。马莫的国际生出勤率还要保持 80% 以上。\n时间：一般提前一年（两个学期）申请。2026 年的两轮（去 27S1 和 27S2）都已截止，下一轮看官网。\n注意：Monash 合作的中国大陆院校不接收中国公民的学期交换。IT 和工程有 FYP，要连续两个学期在同一校区做，交换学期要提前规划。GIP（Global Intercampus Program，官网现在叫 Semester in Australia，SIA）是去澳洲校区读一学期，可以和国际交换同时申请：https://www.monash.edu.my/study-abroad/outbound/Semester-in-Australia",
+  "url": "https://mp.weixin.qq.com/s/gj3m9RCLm2GGcRa5a1lszQ"
+ },
+ {
+  "phrases": [
+   "毕业要申请吗",
+   "怎么申请毕业",
+   "自动授予学位是什么",
+   "毕业典礼怎么报名",
+   "毕业后签证怎么注销",
+   "学位授予能延期吗",
+   "毕业可以推迟吗",
+   "推迟授予学位",
+   "延迟授予学位",
+   "毕业延期",
+   "管培生要求毕业时间怎么办"
+  ],
+  "answer": "Monash 宣布 2026 年 12 月起不用再申请毕业：学院确认你完成课程后，学校按月自动授予学位，之后再邀请你参加毕业典礼（不再有 in absentia）。\n学位授予可以延期（Monash 毕业事务部门确认）：完成课程后，可以在系统里自动申请最多 3 个月的延期；因为毕业生招聘计划等特殊需要延期超过 3 个月的，通过 Monash Connect 申请人工处理，最长到课程完成后 12 个月。正式学位证书上显示的是实际授予学位的日期。\n截至 2026 年 10 月 17 日，马来西亚校区的 FAQ 还是旧流程，已经申请了 2026 年毕业的同学先按收到的邮件和截止日期办，12 月细则出来后再看。\n马莫的国际生毕业后还要另外注销 Student Pass：SORS → Course → Course Completion / Discontinuation Form，要传护照页、签证页和回国机票。机票日期要在交护照当天起 3 周以后。",
+  "url": "https://mp.weixin.qq.com/s/DXwDRcdt0dtNzjMVlY0sgQ"
+ },
+ {
+  "phrases": [
+   "学生邮箱怎么登录",
+   "学生邮箱在哪",
+   "常用网站有哪些",
+   "学校系统入口",
+   "SORS是什么",
+   "SORS怎么用"
+  ],
+  "answer": "常用入口：\n学生邮箱（Gmail）：https://mail.google.com\nMoodle：https://learning.monash.edu/my/\nEd：https://edstem.org/au/dashboard\nHandbook：https://handbook.monash.edu/\nWES 选课：https://my.monash.edu/wes/student_services/\nAllocate 排课：https://my-timetable.monash.edu\nSORS 各类申请（Student Letter、续签、销签、Overload 等）：https://sors.monash.edu.my\n出勤：https://attendance.monash.edu.my\nMoVA 在线咨询（Ask Mira 已停用）：https://www.monash.edu.my/student-services/connect?chatbot=open\nHelpdesk 技术支持：https://helpdesk.monash.edu.my/\n学校的通知、财务回执、签证进度都发到学生邮箱，记得常看。",
+  "url": "https://mp.weixin.qq.com/s/_E4j7ldLXni5RJLtgp_uwg"
+ },
+ {
+  "phrases": [
+   "通识课是什么",
+   "MPU是什么",
+   "general studies",
+   "general study",
+   "MPU课程要修哪些",
+   "通识课要修吗",
+   "通识课怎么选",
+   "MPU怎么选",
+   "MPU计入WAM吗",
+   "通识课可以免修吗",
+   "研究生要修MPU吗",
+   "不修通识课能毕业吗",
+   "通识课不及格怎么办",
+   "研究生要修通识课吗",
+   "26S2入学要修哪些MPU",
+   "2025年入学要修哪些MPU",
+   "国际生要修哪些MPU",
+   "中国学生要修哪些通识课",
+   "MPU有几门",
+   "留学生MPU",
+   "我该修哪一版MPU",
+   "25S2入学要修哪些MPU",
+   "26S1入学要修哪些MPU",
+   "国际生通识课",
+   "MPU3143是什么",
+   "MPU3172是什么",
+   "MPU3193是什么",
+   "MPU3222是什么",
+   "MPU3312是什么",
+   "MPU3322是什么",
+   "MPU3412是什么",
+   "通识课算GPA吗",
+   "GS是什么",
+   "通识",
+   "马来语课要修吗",
+   "Malay课要修吗"
+  ],
+  "answer": "General Studies 也叫 MPU 课程、通识课，是马来西亚教育部的要求：马莫本科生都要修完并通过才能毕业，研究生不用修。\n国际学生要修的课按入学学期分：\n· 2026 年第 2 学期入学：MPU3143 Communicative Malay 2、MPU3172 Malaysian Citra、MPU3222 Professional English、MPU3312 Integrity and Anti-Corruption、MPU3322 Development and Current Issues in Malaysia、MPU3412 Sustainability in Practice\n· 2025 年第 1 学期入学：MPU3143、MPU3193 Philosophy and Current Issues、MPU3312、MPU3412\n· 2024 年第 1 学期入学：MPU3143、MPU3193、MPU3312\n· 商科文凭 Diploma of Business：MPU2143、MPU2313、MPU2412\n马来西亚本地学生修的不一样，可以问“本地生要修哪些MPU”；2026 年第 2 学期起改了什么，可以问“MPU有什么变化”。\n成绩不算进 GPA 和 WAM，但必须通过。毕业前什么时候修、先修哪门都可以，学校建议前三个学期修完。这些课只在 Semester 1 和 Semester 2 开，10 月学期不开。\n选课和普通课一样，在 WES 里加。2026 年第 2 学期起入学的本科新生目前暂时还不能在 WES 里选通识课，开放后学校会通知。在别的学校修过同样的课，可以带成绩单找学院 Education Management Office 申请免修。官网只列了上面三个入学学期，2025 年第 2 学期、2026 年第 1 学期等其他学期入学的，该按哪一版，问 Monash Malaysia Connect（https://www.monash.edu.my/student-services/connect） 确认。\n常见问题：https://www.monash.edu.my/spi/general-studies/frequently-asked-questions-faqs",
+  "url": "https://www.monash.edu.my/study/undergraduate/general-studies"
+ },
+ {
+  "phrases": [
+   "本地生要修哪些MPU",
+   "马来西亚学生MPU",
+   "本地学生通识课",
+   "Malaysian students MPU",
+   "MPU3212要修吗",
+   "National Language A是什么",
+   "SPM马来文没拿Credit要修什么",
+   "本地生MPU",
+   "马来西亚学生要修哪些通识课",
+   "本地学生MPU要修哪些",
+   "MPU3182是什么",
+   "MPU3192是什么",
+   "MPU3183是什么"
+  ],
+  "answer": "马来西亚本地学生（Malaysian Students）要修的 General Studies（MPU 通识课）按入学学期分：\n· 2026 年第 2 学期入学：MPU3182 Aspirasi Negara Bangsa、MPU3192 Falsafah dan Cabaran Semasa、MPU3222 Professional English、MPU3312 Integrity and Anti-Corruption、MPU3322 Development and Current Issues in Malaysia、MPU3412 Sustainability in Practice，另加 MPU3212*\n· 2025 年第 1 学期入学：MPU3183 Appreciation of Ethics and Civilizations、MPU3193 Philosophy and Current Issues、MPU3312、MPU3412，另加 MPU3212*\n· 2024 年第 1 学期入学：MPU3183、MPU3193、MPU3312，另加 MPU3212*\n· 商科文凭 Diploma of Business：MPU2183 Appreciation of Ethics、MPU2313、MPU2412，另加 MPU2212*\n* National Language A，只有 SPM 马来文（Bahasa Melayu）没拿到 Credit、或者不是 SPM 考生的才要修。\n国际学生修的不一样，可以问“MPU课程要修哪些”。官网只列了上面几个入学学期，别的学期入学的（比如 2025 年第 2 学期），问 Monash Malaysia Connect（https://www.monash.edu.my/student-services/connect） 按哪一版。",
+  "url": "https://www.monash.edu.my/study/undergraduate/general-studies"
+ },
+ {
+  "phrases": [
+   "MPU有什么变化",
+   "MPU改了什么",
+   "通识课改了吗",
+   "26S2入学MPU有什么不同",
+   "MPU变多了",
+   "MPU变成6门了吗",
+   "为什么MPU多了",
+   "MPU新规",
+   "通识课有变化吗"
+  ],
+  "answer": "2026 年第 2 学期入学起，通识课（MPU）从 4 门变成 6 门：\n· 国际学生：原来是 MPU3143 Communicative Malay 2、MPU3193 Philosophy and Current Issues、MPU3312 Integrity and Anti-Corruption、MPU3412 Sustainability in Practice。现在去掉 MPU3193，新加 MPU3172 Malaysian Citra、MPU3222 Professional English、MPU3322 Development and Current Issues in Malaysia。\n· 本地学生：原来是 MPU3183、MPU3193、MPU3312、MPU3412。现在是 MPU3182 Aspirasi Negara Bangsa、MPU3192 Falsafah dan Cabaran Semasa、MPU3222、MPU3312、MPU3322、MPU3412。SPM 马来文没拿到 Credit 的还要加 MPU3212 National Language A。\n再往前，2024 年第 1 学期入学的只有 3 门，2025 年第 1 学期起加了 MPU3412。\n每一版写的是“这个学期入学的同学”要修的，已经入学的按自己入学那一版修。2026 年第 2 学期起入学的新生目前还不能在 WES 里选通识课，开放后学校会通知。不确定自己该修哪一版，问 Monash Malaysia Connect（https://www.monash.edu.my/student-services/connect）。",
+  "url": "https://www.monash.edu.my/study/undergraduate/general-studies"
+ },
+ {
+  "phrases": [
+   "学校在哪里",
+   "学校地址",
+   "马莫地址",
+   "从机场怎么去学校",
+   "怎么去学校",
+   "学校附近交通",
+   "BRT怎么坐",
+   "怎么去Sunway Pyramid",
+   "从学校去吉隆坡怎么走",
+   "学校停车",
+   "巴士",
+   "停车",
+   "坐什么车",
+   "坐车",
+   "公交",
+   "停车场在哪"
+  ],
+  "answer": "马莫主校区地址：Monash University Malaysia, Jalan Lagoon Selatan, 47500 Bandar Sunway, Selangor, Malaysia，离吉隆坡大约 20 公里。导航搜 Monash University Malaysia 就行。\n· 从机场过来：打 Grab 最方便。坐公共交通的话，从 KLIA 坐机场快线到 KL Sentral，换 KTM 到 Setia Jaya，再换 BRT 到 SunU-Monash 站，就在学校门口。也可以从 KL Sentral 坐 LRT Kelana Jaya 线到 USJ 7，再换 BRT。\n· BRT Sunway 线：SunU-Monash 站在学校门口，Sunway Lagoon 站到 Sunway Pyramid，Sunmed 站到 Sunway Medical Centre。\n· Sunway 免费穿梭巴士：每天 7:00 到 22:15，大约 45 分钟一班，经过 Monash、Sunway GEO、Sunway Lagoon BRT 站、Sunway Medical Centre 等。时刻表：https://sunwayuniversity.edu.my/sites/default/files/documents/2024-10/busschedule.pdf\n· 走路：有带顶棚的走廊直通 Sunway Pyramid 商场。\n· Grab：学校到 Sunway Pyramid 一般不超过 RM10。\n· 停车：Southern Car Park 只给教职工和学生用，附近还有 BRT、Sunway Pyramid、Sunway Medical Centre 等公共停车场，违停会被罚。",
+  "url": "https://www.monash.edu.my/about/maps-and-transport"
+ },
+ {
+  "phrases": [
+   "校园地图",
+   "学校地图",
+   "教室在哪",
+   "怎么找教室",
+   "教学楼在哪",
+   "课室位置",
+   "building在哪",
+   "LT在哪",
+   "讲堂在哪",
+   "教学楼在哪",
+   "plenary在哪里",
+   "plenary在哪",
+   "马莫plenary在哪",
+   "plenary是在哪个教室",
+   "plenary教室在哪",
+   "lecture在哪上",
+   "上课地点在哪",
+   "马莫学校地图",
+   "马莫校园地图",
+   "学校平面图"
+  ],
+  "answer": "找教室、看校园地图，推荐下载 Monash Study app（应用商店搜 Monash Study），可以查看和搜索教室位置。\n网页版校园地图：https://www.monash.edu.my/__data/assets/image/0009/518724/MUM-campus-map.png\n每节课在哪个教室，可以在 Allocate 的课表或 Class Timetable 里看：https://classtimetable.monash.edu/SMA2026",
+  "url": "https://www.monash.edu.my/about/maps-and-transport"
+ },
+ {
+  "phrases": [
+   "学生卡怎么办",
+   "M-Pass怎么申请",
+   "M-Pass",
+   "mpass",
+   "学生证怎么办",
+   "学生卡丢了怎么办",
+   "学生证补办",
+   "学生卡坏了",
+   "学生卡过期了",
+   "学生卡有什么用",
+   "什么时候拿学生卡",
+   "M-Pass丢了怎么办",
+   "学生卡在哪领"
+  ],
+  "answer": "马莫的学生卡叫 M-Pass，整个学业期间都有效（最长 5 年），不用每年更新。\n· 新生申请：先在 WES 选好课，并在 Enrolment/Re-Enrolment 里填完 Enrolment Questionnaire 和紧急联系人，再按 Let's Begin 的第 4 步用 Monash 账号填 M-Pass 申请表：https://www.monash.edu.my/lets-begin/enrolment/enrolment 。下午 2 点以后提交的，第二个工作日才处理。做好后会发邮件到学生邮箱，通知你去领。\n· 国际学生要先拿到学生签证（Student Pass）才能发卡。\n· 用途：在校园里要随身带；考试进考场必须出示；图书馆服务、打印充值；有权限的楼和房间刷卡进门。\n· 丢了、坏了或被偷：马上报告 Security Office 和图书馆，免得别人用你的名义借书。然后在 SORS 申请补办：https://sors.monash.edu.my/sites/student-online-forms/student-documents/mpass-id-card ，补办费 RM100，要出示护照等带照片的证件。卡过期了但还没毕业，也在 SORS 申请换新。",
+  "url": "https://www.monash.edu.my/student-services/student-admin/document-identity/student-id-cards"
+ },
+ {
+  "phrases": [
+   "什么是hurdle",
+   "hurdle是什么",
+   "hurdle改了什么",
+   "hurdle有什么变化",
+   "hurdle新规",
+   "hurdle取消了吗",
+   "threshold hurdle",
+   "competency hurdle",
+   "hurdle requirement",
+   "还有45分门槛吗",
+   "hurdle还有吗",
+   "怎么知道课有没有hurdle",
+   "hurdle在哪看",
+   "期末45分",
+   "期末最低要考多少分",
+   "孩子的课有hurdle是什么意思",
+   "hurdle啥意思",
+   "hurdle最低分要求",
+   "必须要过的考核",
+   "门槛制度改了吗",
+   "2026年hurdle改了",
+   "课程里的hurdle",
+   "45分门槛取消了吗",
+   "及格门槛",
+   "期末门槛",
+   "45%门槛还有吗"
+  ],
+  "answer": "Hurdle 是一门课里必须达到的考核要求：没达到，这门课就挂，总分再高也没用。一门课有几个 hurdle，任何一个没过都算挂。哪项是 hurdle、没过会怎样，看这门课的 Handbook 和 Moodle。\nHurdle 分两种，规则正在改：\n· Threshold hurdle（分数门槛）：某项考核（占总成绩 20% 以上）至少要拿 45%，比如“期末考试至少 45%”，迟交扣分后的分数也算在内。这种正在取消：2025 年 3 月 1 日起新课不能再用；2026 年 1 月 1 日起，考核方式有大调整的课要去掉；到 2026 年 12 月 31 日，所有课都不再用。所以 2026 年有的课可能还有，以这门课的 Handbook 为准。\n· Competency hurdle（能力考核）：保留，只用在必须掌握的关键技能，或专业认证要求的地方。可以只算过/不过（不占分），也可以占分并规定要达到的标准。\n最大的变化：competency hurdle 第一次没过，学校必须至少再给一次额外考核（additional assessment），给几次写在 Handbook 和 Moodle 里。\n没过怎么办、NH 是什么意思，可以接着问“hurdle没过怎么办”。\n政策原文 Assessment Regime Procedure 第 4 节（2026 年 7 月 27 日起开始的学期适用）：https://publicpolicydms.monash.edu/Monash/documents/1935756",
+  "url": "https://www.monash.edu/learning-teaching/TeachHQ/Assessment/designing-assessment-regimes/how-to/use-hurdles-in-assessment"
+ },
+ {
+  "phrases": [
+   "hurdle没过怎么办",
+   "hurdle挂了",
+   "NH是什么意思",
+   "成绩NH",
+   "hurdle fail",
+   "hurdle没过能补考吗",
+   "hurdle没过可以补考吗",
+   "hurdle没过有supp吗",
+   "hurdle没过算挂科吗",
+   "additional assessment是什么",
+   "NGO是什么",
+   "PGO是什么",
+   "hurdle没过还能supp吗",
+   "额外考核是什么",
+   "补做是什么",
+   "NS是什么意思",
+   "NH影响GPA吗",
+   "hurdle挂了影响GPA吗",
+   "孩子成绩显示NH",
+   "hurdle没过要重修吗",
+   "hurdle不及格",
+   "hurdle能重考吗",
+   "hurdle有几次机会",
+   "补做有几次",
+   "NH 45",
+   "NH能补考吗",
+   "总分够了为什么还挂科",
+   "分数过了但挂科",
+   "总分及格了怎么还挂科",
+   "孩子有门课hurdle没过",
+   "补做最多几分"
+  ],
+  "answer": "Hurdle 没过会怎样，分两种情况：\nCompetency hurdle（能力考核）没过：\n· 老师必须给至少一次额外考核（additional assessment，也就是补做），自动安排，不用也不能自己申请。考的是同样的学习目标，一般不是整门重考。\n· 要在本学期结束前完成；期末那项要在出成绩前完成，特殊情况最晚出成绩后 90 天。占分的 hurdle，补做最多给 50%。补做不能申请 special consideration。\n· 补做也都没过：这门课挂，而且没有 supplementary 补考，就算总分 45 到 49 也不行。\n成绩怎么记：\n· 其他考核加起来 45 分以上：记 NH（Hurdle Fail），分数定为 45。\n· 不到 45 分：记 N（Fail），按实际分数。\n· 只算过/不过的课：过了记 PGO，没过记 NGO。\n· NH 在 GPA 里和普通挂科一样算 0.3，WAM 按 45 分算。\nThreshold hurdle 没过记 NH 45 的，或者 hurdle 都过了但总分 45 到 49 分的：出成绩那天显示 NS，就是自动给了 supplementary 补考，过了这门课记 50 分（P），出成绩后 90 天内考完。补考不能申请，也可以选择不考。显示 NH 却没有 NS，一般是这门课用补做代替补考，看 Handbook 或 Moodle。\n缓考（deferred）那次没过的，不给补做，45 到 49 分也没有补考。\n不清楚为什么拿 NH，找 Unit Coordinator 或 Chief Examiner。马莫成绩 FAQ：https://www.monash.edu.my/student-services/student-admin/examinations-results/exams-and-results\n马莫国际学生的学生签证要求在标准学制内读完，能补考尽量补。",
+  "url": "https://www.monash.edu/students/admin/assessments/supplementary"
+ },
+ {
+  "phrases": [
+   "挂科了怎么办",
+   "挂科怎么办",
+   "挂了一门课怎么办",
+   "补考",
+   "补考怎么申请",
+   "有补考吗",
+   "supp是什么",
+   "supplementary是什么",
+   "补考什么时候考",
+   "考了47分怎么办",
+   "差一点及格",
+   "补考过了给几分",
+   "补考没过怎么办",
+   "补考可以不考吗",
+   "重修还是补考",
+   "孩子挂科了怎么办",
+   "没及格怎么办",
+   "挂了怎么办",
+   "期末挂了",
+   "挂了一门有补考吗",
+   "挂了一门课有补考吗",
+   "挂了一门能补考吗",
+   "挂科有补考吗",
+   "挂科能补考吗",
+   "挂科可以补考吗",
+   "挂了能补考吗",
+   "挂了还能补考吗",
+   "不及格有补考吗",
+   "不及格能补考吗",
+   "考试没过有补考吗",
+   "孩子挂科有补考吗",
+   "期末考试挂了怎么办",
+   "期末考试没过怎么办"
+  ],
+  "answer": "挂科后有没有补考（supplementary assessment），主要看总分：\n· 总分 45 到 49 分（成绩 N 或 NH）：出成绩那天显示 NS，就是自动给了补考。不用申请，也不能申请。\n· 不到 45 分：没有补考，只能重修。\n· 这些情况也没有补考：缓考（deferred）后才是 45 到 49 分；成绩是 NGO 或 NSR；competency hurdle 没过（改用补做）；占 20% 以上的考核因学术不端记零分；这门课本身不设补考（实习、项目类课，看 Handbook）。\n补考怎么考：\n· 在出成绩后 90 天内，只有一次机会。考试时间地点看 Allocate+；其他形式的，学院至少提前 5 个工作日发邮件。\n· 考过了这门课记 50 分（P），不会更高；没过还是原来的成绩。\n· 可以不考，不考就按原成绩。想拿更高分可以重修，对 WAM 更好。\n· 这门课是下学期某门课的先修课的话，补考没过，那门课的选课会被取消。\n马莫国际学生的学生签证要求在标准学制内读完，延签很难，能补考尽量补。\nHurdle 没过的规则不一样，可以问“hurdle没过怎么办”。",
+  "url": "https://www.monash.edu/students/admin/assessments/supplementary"
+ },
+ {
+  "phrases": [
+   "GPA怎么算",
+   "WAM怎么算",
+   "绩点怎么算",
+   "平均分怎么算",
+   "GPA是什么",
+   "WAM是什么",
+   "GPA和WAM有什么区别",
+   "怎么算WAM",
+   "CGPA是什么",
+   "WAM计算器",
+   "挂科影响WAM吗",
+   "孩子的GPA怎么看"
+  ],
+  "answer": "GPA 和 WAM 是两种平均成绩，算法不一样：\nGPA（4.0 制）：每门课按等级换算，再按学分加权平均。HD 4.0、D 3.0、C 2.0、P 1.0、NP（Near pass）0.7、N 和 NH 都是 0.3、WN（Withdrawn fail）0。PGO、SFR、WI 这类不算进去。\nGPA = Σ(等级分 × 学分) ÷ Σ学分。另有 CGPA，也是 4.0 制，但换算不同：HD 4.0、D 3.67、C 2.85、P 2.15、NP 1.7、N 和 NH 1.15。\nWAM（百分制）：按每门课的实际分数（比如 78、63、48）和课程的年级加权平均，挂科和重修的课一般也算进去。NH 按 45 分算，WDN 不算。申请交换、荣誉学位一般看 WAM。\n通识课 MPU 不算进 GPA 和 WAM。\nWAM 怎么算和计算器：https://www.monash.edu/students/admin/assessments/results/wam/calculator",
+  "url": "https://www.monash.edu/students/admin/assessments/results/gpa"
+ },
+ {
+  "phrases": [
+   "生病了作业交不了怎么办",
+   "生病交不了作业",
+   "生病了作业怎么办",
+   "生病了交不了作业",
+   "作业来不及交怎么办",
+   "作业交不了怎么办",
+   "作业赶不上截止怎么办",
+   "作业能延期吗",
+   "作业可以延期吗",
+   "怎么申请延期交作业",
+   "作业延期怎么申请",
+   "作业延期",
+   "short extension",
+   "short extension怎么申请",
+   "短期延期",
+   "特殊考虑怎么申请",
+   "special consideration怎么申请",
+   "special consideration",
+   "spec con",
+   "特殊考虑要什么材料",
+   "病假证明交到哪",
+   "医疗证明怎么交",
+   "medical certificate",
+   "孩子生病了作业交不了",
+   "发烧了作业交不了",
+   "生病了能晚交作业吗"
+  ],
+  "answer": "生病赶不上作业截止，有两种办法，都用同一个表格申请：https://forms.monash.edu/special-consideration\n· Short extension（短期延期）：延 2 天。大多数作业、论文、项目都能申请；小组作业、课堂测验和 presentation、实验和实践类考核、期中测验、期末考试不行。已经交过（或用完提交次数）的也不行。这门课第一次申请不用写理由，也不用交证明；同一门课再申请别的作业，要选理由，但不用交证明。一个学校工作日内邮件通知结果。\n· Special consideration（特殊考虑）：一般延 2 天以上，要交证明。生病就交 medical certificate（医疗证明），要写明你在截止日前不适合完成作业、影响多久，用诊所或医生的信笺纸，签名、盖章、写日期。在马来西亚看病，要找当地正式注册的医生开，英文的或者附认证翻译。申请表里还要写一段情况说明（impact statement）。证明还没拿到也要按时先交申请，写上哪天补交。\n· 两种都要在作业截止当天 23:55 前申请，不能直接找老师要延期。短期延期错过截止就不收了，只能改申请特殊考虑。期末考试不适用这两种延期，要申请缓考，可以问“期末考试延期”。\n详情：https://www.monash.edu/students/admin/assessments/extensions-special-consideration\n证明材料要求：https://www.monash.edu/students/admin/assessments/extensions-special-consideration/documents",
+  "url": "https://www.monash.edu/students/admin/assessments/extensions-special-consideration"
+ },
+ {
+  "phrases": [
+   "考试那天有事能推迟吗",
+   "考试能推迟吗",
+   "考试能延期吗",
+   "考试生病了怎么办",
+   "考试那天生病了",
+   "考试那天发烧了",
+   "缓考怎么申请",
+   "缓考",
+   "缓考什么时候考",
+   "考试延期",
+   "考试请假",
+   "错过考试怎么办",
+   "没去考试怎么办",
+   "考试中途不舒服",
+   "考试时身体不舒服",
+   "defer exam",
+   "deferred exam",
+   "deferred assessment",
+   "DEF是什么意思",
+   "考试能改时间吗",
+   "孩子考试那天生病了",
+   "考不了试怎么办",
+   "exam延期",
+   "期末考试那天有事能推迟吗",
+   "期末考试那天生病了",
+   "期末考试能推迟吗"
+  ],
+  "answer": "期末考试（Allocate+ 上排了时间的 final assessment）那天因为生病等特殊情况考不了，要申请缓考（defer），用单独的表格：https://forms.monash.edu/deferred-and-rescheduled-assessments\n· 能申请的情况：因为自己控制不了的特殊情况没法在那天考，比如生病（包括 COVID-19）、心理健康问题、亲人去世。记错考试日期、时间或地点，代表社团做志愿者，本来可以避免的技术问题，都不行。去旅游、出门也不算，期末考试周别订行程。\n· 截止：知道考不了就尽快申请，最晚考试当天 23:55。要附证明，生病就要马上找医生开 medical certificate。证明还没拿到也要先按时提交，之后补交。\n· 考试中途不舒服：一般看过题目或开始作答后，就不能申请缓考了，能坚持尽量考完。在学校考 eExam 时，工作人员会陪你去 Health & Wellness centre，由注册护士看；放弃考试再申请的话，要交能证明病情严重的材料。\n· 结果：材料齐全的话，两个学校工作日内邮件通知。批准后成绩先显示 DEF，在缓考期（deferred assessment period）考，马莫一般是期末考试周之后大约六周，时间地点会发邮件。批准了又去考原来那场，缓考就作废。考了缓考的，就不能再有补考。\n详情：https://www.monash.edu/students/admin/assessments/extensions-special-consideration/defer\n证明材料要求：https://www.monash.edu/students/admin/assessments/extensions-special-consideration/documents\n缓考时间表：https://www.monash.edu/students/admin/assessments/dates-timetables/finals#assessment-dates",
+  "url": "https://www.monash.edu/students/admin/assessments/extensions-special-consideration/defer"
+ },
+ {
+  "phrases": [
+   "选课只成功了一门",
+   "提交之后只显示一门成功",
+   "WES只选上了一门",
+   "选课有的没成功",
+   "选的课没选上",
+   "课满了怎么办",
+   "课满了选不上",
+   "unit满了怎么办",
+   "选课失败怎么办",
+   "WES选课失败",
+   "选课提交了没成功",
+   "WES显示没选上"
+  ],
+  "answer": "WES 选课提交后只显示一部分课选上了、有的课没成功，或者课满了选不上，到 Monash Connect 求助，也可以线上问 MoVA：https://www.monash.edu.my/student-services/connect?chatbot=open\nMonash Connect 在 3 号楼 1 层（Building 3, Level 1），开放时间：周一到周四 9:00–17:00，周五 9:00–13:00。",
+  "url": "https://www.monash.edu.my/student-services/connect"
+ },
+ {
+  "phrases": [
+   "补课撞了怎么办",
+   "补课时间撞了",
+   "补课和别的课冲突",
+   "补课时间冲突",
+   "补课课撞了咋办",
+   "make up class撞课",
+   "补课去不了怎么办",
+   "调课撞课了",
+   "调课后时间冲突",
+   "replacement class冲突"
+  ],
+  "answer": "补课（或调课）的时间和别的课撞了：给任课老师发邮件说明情况，问能不能去同一门课其他时间的那一节代替。"
+ },
+ {
+  "phrases": [
+   "公共假期要上课吗",
+   "下周一放假吗",
+   "明天放假吗",
+   "今天放假吗",
+   "公共假期放假吗",
+   "马来西亚公共假期",
+   "public holiday要上课吗",
+   "公共假期调课",
+   "假期调课"
+  ],
+  "answer": "马来西亚的公共假期请上网查雪兰莪州（Selangor，马莫所在的州）的公共假期表。遇到公共假期一般要调课，老师会发邮件通知，留意邮件就行。"
+ },
+ {
+  "phrases": [
+   "minor和elective有什么区别",
+   "minor是什么",
+   "elective是什么",
+   "free elective是什么",
+   "elective能选什么课",
+   "可以选哪些elective",
+   "可供elective的课有哪些",
+   "选修课能选哪些",
+   "minor怎么选",
+   "minor有哪些",
+   "elective可以选别的学院的课吗"
+  ],
+  "answer": "Elective：先确认是不是 Free Elective。如果是 Free Elective，所有学院的课都可以选。\nMinor：查你自己学位的课程设置。可以在 Monash Hub 查：https://monashhub.secureview.tech/courses ，也可以到官网 Handbook 查看：https://handbook.monash.edu/",
+  "url": "https://monashhub.secureview.tech/courses"
+ },
+ {
+  "phrases": [
+   "学校打印机怎么用",
+   "怎么打印",
+   "在哪打印",
+   "学校哪里可以打印",
+   "打印怎么充值",
+   "打印机在哪",
+   "怎么复印",
+   "打印要钱吗",
+   "printer怎么用",
+   "打印电脑账号密码"
+  ],
+  "answer": "马莫图书馆一楼墙上有二维码，打印要先充值，墙上有具体的使用指引，登录电脑的账号密码墙上也有说明。需要帮助可以找图书馆工作人员。"
+ },
+ {
+  "phrases": [
+   "面对面咨询服务",
+   "面对面咨询",
+   "线下咨询",
+   "现场咨询",
+   "Monash Connect怎么用",
+   "Monash Connect在哪",
+   "去Monash Connect要干嘛",
+   "Monash Connect取号",
+   "去哪里线下问问题",
+   "Monash Connect开放时间",
+   "Monash Connect几点下班",
+   "Student Hub在哪"
+  ],
+  "answer": "去 Monash Connect 面对面咨询：进门后先取号，按自己要办的事选择类别，然后等叫号。不清楚选哪个，直接问里面的工作人员。\nMonash Connect 在 3 号楼 1 层（Building 3, Level 1），开放时间：周一到周四 9:00–17:00，周五 9:00–13:00。\n不想跑一趟的话，可以线上问 MoVA（Monash 的 24 小时在线助手）：https://www.monash.edu.my/student-services/connect?chatbot=open",
+  "url": "https://www.monash.edu.my/student-services/connect"
+ },
+ {
+  "phrases": [
+   "MDAC离开时间怎么填",
+   "MDAC怎么填",
+   "MDAC离境时间",
+   "MDAC出发时间怎么填",
+   "MDAC填什么",
+   "入境卡怎么填"
+  ],
+  "answer": "MDAC 的离开时间等具体填法，这里没有整理，请自行上网查找相关信息。"
+ },
+ {
+  "phrases": [
+   "maybank开户",
+   "银行开户",
+   "马来西亚怎么开银行卡",
+   "开银行账户",
+   "办银行卡要什么",
+   "Maybank要带什么",
+   "银行开户要什么材料",
+   "办卡要student letter吗"
+  ],
+  "answer": "在马来西亚开银行卡（比如 Maybank）：先在 SORS（https://sors.monash.edu.my）申请 International Student Letter，再带上有学生签证的护照原件去银行办理。之后会发推文详细介绍，敬请留意。着急的话可以先自行查找相关指南。",
+  "url": "https://sors.monash.edu.my"
+ },
+ {
+  "phrases": [
+   "Handbook2027有啥变化",
+   "2027 Handbook有什么变化",
+   "2027年的课有什么变化",
+   "明年课程有变化吗",
+   "2027课程变了吗"
+  ],
+  "answer": "2027 年各门课的信息可以在 Monash Hub 查看：https://monashhub.secureview.tech/units",
+  "url": "https://monashhub.secureview.tech/units"
+ },
+ {
+  "phrases": [
+   "期末什么时候考",
+   "期末几号考",
+   "考试安排在哪看",
+   "考试时间表在哪看",
+   "exam timetable",
+   "final exam什么时候",
+   "final什么时候考",
+   "期末考试什么时候",
+   "期末考试时间",
+   "期末考试在哪考",
+   "考试地点在哪看",
+   "考场在哪",
+   "exam在哪考"
+  ],
+  "answer": "期末考试的时间和地点都在 Monash Study app 里点 Assessment 查看。考试时间每学期在固定时间公布，具体哪天公布每学期不一样，可以自行查官网。"
+ },
+ {
+  "phrases": [
+   "学生签证过期了怎么办",
+   "签证过期了还能留在马来西亚吗",
+   "Student Pass过期了怎么办",
+   "签证过期了还能待吗",
+   "孩子签证过期了"
+  ],
+  "answer": "【马来西亚校区（Student Pass）】学生签证过期涉及个人情况，case by case，请直接到 ISP 柜台咨询确认。\n【澳洲校区】澳洲的学生签证不能续签，读不完要在到期前至少 8 周重新申请新的学生签证。详见 https://www.monash.edu/students/support/international/visa/extend"
+ },
+ {
+  "phrases": [
+   "AskMira用不了",
+   "Ask Mira怎么用",
+   "askmira",
+   "Ask Mira",
+   "MoVA是什么",
+   "MoVA怎么用",
+   "怎么在线咨询学校",
+   "线上咨询",
+   "在线提交工单",
+   "AskMira打不开",
+   "Ask Mira停用了吗",
+   "找学校客服"
+  ],
+  "answer": "Ask Mira 已经停用，现在线上咨询用 MoVA（Monash Virtual Assistant，24 小时在线助手）：https://www.monash.edu.my/student-services/connect?chatbot=open\nMoVA 答不了的，Monash Connect 团队会在工作时间回复。之前在 Ask Mira 提交过的问题不用重新提交，团队照样会回复。\n也可以线下去 Monash Connect：Monash Connect 在 3 号楼 1 层（Building 3, Level 1），开放时间：周一到周四 9:00–17:00，周五 9:00–13:00。",
+  "url": "https://www.monash.edu.my/student-services/connect"
+ },
+ {
+  "phrases": [
+   "怎么转专业",
+   "转专业",
+   "马莫怎么转专业",
+   "转专业要求",
+   "转专业是择优录取吗",
+   "转专业是符合要求就可以吗",
+   "转专业难吗",
+   "换专业",
+   "换专业怎么申请",
+   "转学位",
+   "internal course transfer",
+   "course transfer",
+   "转专业截止时间",
+   "转专业什么时候申请",
+   "转专业要重新办签证吗",
+   "孩子想转专业",
+   "转专业要多少分",
+   "转专业要WAM多少",
+   "转到澳洲校区"
+  ],
+  "answer": "马莫转专业叫 Internal Course Transfer：只能在同一级别之间转（比如本科转本科），并且现在的课还没读完。\n· 条件：是在读学生（保持注册）；满足新专业的先修要求；现在专业的成绩达到相应水平；已经修完至少 12 学分。\n· 是不是择优：官网说实际要求由学院定，可能比上面更高（包括要修完多少学分）。有的学院写明是竞争性的，比如信息技术学院：看每个专业的空位，结合你整个成绩记录来选。所以满足最低条件不保证能转，申请前先找学院 EMO（Education Management Office）确认具体要求（最低 WAM、先修课、要交的材料等）。\n· 申请：网上填 Internal Course Transfer 表格：https://sors.monash.edu.my/sites/student-online-forms/course/internal-course-transfer\n· 2027 年 2 月（第 1 学期）入学的截止：国际生 2026 年 12 月 4 日前申请，签证材料 12 月 18 日前；本地生 2027 年 2 月 1 日前；3 月 1 日开学。\n· 结果会发邮件。成功的话会收到 offer（可能附学分减免信），在 offer 写的期限前把 Acceptance Form 和首付款收据交到 Finance Helpdesk（https://finhelpdesk.monash.edu.my/open.php）或 2 号楼 1 层财务柜台。首付款 RM2,000 加 RM100 杂费，国际生另加签证和保险费。\n· 国际生注意：转专业要重新办学生签证（Student Pass），有的情况要先注销签证、出境再申请，大约要 8 周。整个学习期间因为转专业重新申请签证最多两次，批不批由马来西亚移民局决定。详情：https://www.monash.edu.my/student-services/international-students/student-pass/progressingchanging-course-within-monash\n· 想转到澳洲校区是另一个流程：https://www.monash.edu.my/study/transfer",
+  "url": "https://www.monash.edu.my/study/apply/internal-course-transfer"
+ },
+ {
+  "phrases": [
+   "国际生有没有保险",
+   "国际生医疗保险",
+   "学校有医疗保险吗",
+   "留学生保险要自己买吗",
+   "看病保险怎么报销",
+   "保险怎么理赔",
+   "MiCare怎么用",
+   "medical insurance"
+  ],
+  "answer": "【马来西亚校区】马莫的国际生都有学校指定的医疗保险，保险公司是 Generali（原 AXA），持有效 Student Pass 的国际生都在保。保险费包含在续签 Student Pass / i-Kad 的费用里。想多一层保障，可以自己另外买个人保险。\n· 保单详情、电子医疗卡、理赔、找最近的合作诊所（panel clinic），都在 MiCare 的 app 和网站里。\n· 去合作诊所看普通门诊（GP）：出示护照和 MyMed app 里的电子医疗卡，诊所扫码后就能看医生，不用先付钱。保单不包的药，或者额度用完了，要自己付。\n· 去非合作诊所：先自己付钱，30 天内在 MiCare app 或网站提交理赔，由保险公司审核。官网建议只在急诊、最近的合作诊所关门或 5 公里内没有合作诊所时去。\n· MiCare 24 小时客服：1-300-88-9979，callcenter@micaresvc.com\n【澳洲校区】不一样：持学生签证在澳洲读书，整个签证期间都要有 OSHC（海外学生医疗保险）。Monash 推荐的保险公司是 Allianz Care Australia，可以自己买，也可以让 Monash 代办。Allianz 的 OSHC 不包牙科、眼科和理疗，需要可以另买附加险。详见 https://www.monash.edu/students/admin/fees/other-costs/overseas-health-cover",
+  "url": "https://www.monash.edu.my/student-services/international-students/medical-insurance"
+ },
+ {
+  "phrases": [
+   "这学期什么时候放假",
+   "什么时候放假",
+   "期中假什么时候",
+   "mid-semester break什么时候",
+   "学期什么时候结束",
+   "swot vac什么时候",
+   "校历在哪看",
+   "principal dates在哪看",
+   "什么时候开学"
+  ],
+  "answer": "每学期的开学、期中假（mid-semester break）、复习周（swot vac）、期末考核结束、出成绩这些日期，都在马莫官网的 Principal Dates 页面，按学期分开列。学校因为公共假期关门的日子也在这一页，写作 University closed。",
+  "url": "https://www.monash.edu.my/student-services/student-admin/principal-dates-for-monash-university-malaysia"
+ },
+ {
+  "phrases": [
+   "不想上这门课了怎么退",
+   "怎么退课",
+   "退课",
+   "怎么退选一门课",
+   "withdraw unit",
+   "census date之后还能退课吗",
+   "退课会有记录吗",
+   "退课还要交学费吗",
+   "WES退不了课"
+  ],
+  "answer": "在 WES 退课：https://my.monash.edu/wes/student_services ，只有选课变更开放的时候才能改。\n· census date 之前退：这门课不收学费，成绩单上也不会显示。\n· census date 之后退：学费照付，记录上会显示 WD-LATE 或 WD-FAIL。\n· 每学期的 census date 和退课截止日期以 Principal Dates 页面为准：https://www.monash.edu.my/student-services/student-admin/principal-dates-for-monash-university-malaysia\n· WES 里退不了（比如过了 census date、不在可以改的时间），到 SORS 填 Enrolment Amendment Form，在 SORS 的 communication log 里写清楚退课原因，等审核。\n退之前确认不影响学位的选课要求，可能要补选一门课。国际生减课会影响签证，两个校区规定不同：\n【马来西亚校区（Student Pass）】全日制一般每学期 24 学分。减课（underload）每学期最少 18 学分，只限几种情况（学术进度委员会要求、课程安排排不满、医疗或特殊个人情况、最后一学期或一年不需要满学分），要附证明申请；低于 18 学分要申请休学。详见 https://www.monash.edu.my/student-services/international-students/during-your-studies\n【澳洲校区（学生签证 subclass 500）】只有在 compassionate or compelling circumstances（特殊情况）下才能申请减课或休学。详见 https://www.monash.edu/students/support/international/visa",
+  "url": "https://www.monash.edu.my/business/current/frequently-asked-questions/faq-unit-withdrawal"
+ },
+ {
+  "phrases": [
+   "考试能带什么进考场",
+   "考场能带什么",
+   "eExam要带什么",
+   "考试要带什么东西",
+   "考试能带手机吗",
+   "考试能带计算器吗",
+   "考试能带水吗",
+   "期末考试要带什么",
+   "考试要带什么"
+  ],
+  "answer": "马莫校内 eExam 要带：\n· 充满电的笔记本电脑和充电线，可以带充电宝\n· M-Pass（学生证），或者政府签发的带照片证件（比如护照）\n· 本场考试允许带的材料，比如计算器。能不能带、什么型号，问任课老师\n· 要手写作答的话，带蓝色或黑色的笔，或 HB/2B 铅笔。答题纸考场里有\n· 手机，用来拍照上传手写答案\n进场后：电脑和手机连 Monash-Malaysia Wi-Fi；学生证正面朝上放桌上；手机和智能手表调静音，正面朝下放桌上；包放桌子底下；没允许的东西收起来。\n手机只能用来登录考试做多因素认证，和最后上传手写答案。每场考试的具体要求以考试说明为准。",
+  "url": "https://www.monash.edu/students/admin/assessments/exams/on-campus-malaysia"
+ },
+ {
+  "phrases": [
+   "学费交晚了成绩会被扣住吗",
+   "学费没交会怎么样",
+   "欠费会怎么样",
+   "encumbrance是什么",
+   "账户被封了",
+   "学费逾期",
+   "学费晚交了"
+  ],
+  "answer": "学费或罚款没交，学校会在你的账户上加 encumbrance（封锁）：不能参加 eExam、不能申请成绩单、不能毕业，也看不了成绩，用不了 Moodle、图书馆和选课服务。Student Pass 没按时续签或注销、超过 14 天不回复学校联系等，也会被封。\n被封后学校会发邮件到你的 Monash 邮箱，说明怎么解除。问题解决后（比如交清费用），两个工作日内恢复。付款到账也要时间：本地转账大约两个工作日，从马来西亚以外电汇大约五个工作日。超时还没恢复，联系 Finance Helpdesk。\n一直欠费又没有跟学校商量付款安排，注册会被取消。",
+  "url": "https://www.monash.edu.my/finance/encumbrance"
+ },
+ {
+  "phrases": [
+   "学校有校车吗",
+   "校车",
+   "shuttle bus",
+   "穿梭巴士",
+   "校车时刻表",
+   "Sunway shuttle"
+  ],
+  "answer": "官网交通页面写的是 Sunway 免费穿梭巴士（Sunway Shuttle Bus）：每天 7:00 到 22:15，大约 45 分钟一班（看路况），经过 Monash University Malaysia、Sun-U Residence、Sunway GEO Avenue、Sunway Lagoon BRT 站、Sun-U Monash BRT 站、Sunway Medical Centre 等。\n时刻表：https://sunwayuniversity.edu.my/sites/default/files/documents/2024-10/busschedule.pdf\n可以下载 Sunway Shuttle Bus Tracker app 看车到哪了。",
+  "url": "https://www.monash.edu.my/about/maps-and-transport"
+ },
+ {
+  "phrases": [
+   "PTPTN是什么",
+   "PTPTN",
+   "国际生能申请PTPTN吗",
+   "怎么申请PTPTN",
+   "学生贷款",
+   "马来西亚助学贷款"
+  ],
+  "answer": "PTPTN 是马来西亚国家高等教育基金（Perbadanan Tabung Pendidikan Tinggi Nasional）的教育贷款，给本地高校学生贷款交学费。申请条件第一条是马来西亚公民，所以国际生申请不了。\n本地生的其他条件包括：不超过 45 岁、拿到马莫可以贷款的 diploma 或本科课程的正式 offer、有 Maybank 个人储蓄账户，另外还有家庭收入要求。只能在 PTPTN 官网在线申请，不收纸质申请。常见问题：https://www.monash.edu.my/student-services/financial-assistance/faqs/faqs-for-ptptn",
+  "url": "https://www.monash.edu.my/student-services/financial-assistance/study-loans"
+ },
+ {
+  "phrases": [
+   "休学会影响学生签证吗",
+   "休学签证怎么办",
+   "休学要回国吗",
+   "休学期间能留在马来西亚吗",
+   "国际生休学",
+   "intermission签证",
+   "休学回来要重新办签证吗",
+   "休学要注销Student Pass吗",
+   "休学要多久",
+   "最多能休学多久",
+   "休学了还能续签吗"
+  ],
+  "answer": "【马来西亚校区（Student Pass）】马莫国际生休学（intermission）会影响 Student Pass，申请前先通过 ISP Helpdesk 联系 International Student Pass Office：https://isphelpdesk.monash.edu.my/\n· 整个课程期间最多休学两个学期或一年，可以连着休，也可以分开休。课程要在全日制学制内读完，超出学制的续签由马来西亚移民局决定。\n· 因为医疗原因获批休学：可以留在马来西亚，但要保证休学期间 Student Pass 一直有效。申请时要附注册医生开的医疗证明。\n· 其他原因休学：休学期间必须注销 Student Pass，离开马来西亚。\n· 注销过 Student Pass 的，回马来西亚之前要重新申请 eVAL（eVisa Approval Letter），最早开学前 4 个月、最晚开学前 2 个月申请，只能通过 International Student Pass office 提交。\n休学申请要附证明材料。\n【澳洲校区】不一样：国际生只有在 compassionate or compelling circumstances（特殊情况）下才能申请休学或减课，休学会影响 CoE，Monash 要向澳洲内政部报告。详见 https://www.monash.edu/students/support/international/visa",
+  "url": "https://www.monash.edu.my/student-services/international-students/during-your-studies"
+ },
+ {
+  "phrases": [
+   "国际生可以打工吗",
+   "留学生能打工吗",
+   "学生签证能打工吗",
+   "国际生能兼职吗",
+   "可以做兼职吗",
+   "part time可以做吗",
+   "打工",
+   "兼职",
+   "Student Pass能打工吗",
+   "一周能打工多少小时"
+  ],
+  "answer": "两个校区的规定不一样：\n【马来西亚校区（Student Pass）】移民局规定很严：只能在超过 7 天的学期假期或公共假期打工，每周不超过 20 小时，只能在餐厅、加油站便利店、迷你市场、酒店工作，不能做收银员、歌手、按摩师、乐手、GRO 等。所有工作都要通过 ISP 向移民局申请批准，提交时本人要到场。官网建议不要靠打工维持生活。\n【澳洲校区（学生签证 subclass 500）】开课后每两周最多工作 48 小时（教学和考试期间），开课前不能工作；期末考核结束后、学期假期和毕业后不限时。详见 https://www.monash.edu/students/support/international/visa/working",
+  "url": "https://www.monash.edu.my/student-services/international-students/student-pass2"
+ },
+ {
+  "phrases": [
+   "转学去别的大学",
+   "转去其他大学",
+   "转学要注意什么",
+   "转学到马来西亚其他学校",
+   "转学签证怎么办",
+   "去别的学校读"
+  ],
+  "answer": "两个校区的规定不一样：\n【马来西亚校区（Student Pass）】离开 Monash 前要注销 Student Pass，转去马来西亚其他院校也一样，不然学校会通知警方、高教部、使馆和移民局。转去马来西亚其他院校的，还要给 ISP 新学校的 offer letter 和已经提交 Student Pass 申请的证明。具体先问 ISP Helpdesk：https://isphelpdesk.monash.edu.my/\n【澳洲校区（学生签证 subclass 500）】转去别的院校要先拿到 Monash 的 release（放行）批准，批准前不能接受新学校的 offer；在 Monash 读满 12 个月后再转就不需要 release。详见 https://www.monash.edu/students/support/international/visa/changes\n在马莫内部换专业问「怎么转专业」。",
+  "url": "https://www.monash.edu.my/student-services/international-students/after-your-studies"
+ },
+ {
+  "phrases": [
+   "减课会影响签证吗",
+   "国际学生减课会影响签证吗",
+   "underload签证",
+   "少修课影响签证吗",
+   "一学期能少修几门吗",
+   "underload怎么申请",
+   "可以只修三门课吗",
+   "课业量降到全日制以下",
+   "underload在哪申请"
+  ],
+  "answer": "两个校区的规定不一样：\n【马来西亚校区（Student Pass）】全日制一般每学期 24 学分（一年 48 学分）。减课（underload）每学期最少 18 学分，只限这几种情况：学术进度委员会（APC）要求减课；课程结构、先修规定或开课情况排不满 24 学分；医疗或特殊个人情况；最后一学期或一年不需要修满。低于 18 学分要申请休学（问「休学会影响学生签证吗」）。\n申请：在 SORS 填 Underload Application：https://sors.monash.edu.my/sites/student-online-forms/enrol/underload-application\n· 提交前必须先发邮件给 International Student Pass Office（mum.student.visa@monash.edu），问清楚减课对 Student Pass 的影响。\n· 要在开学第 2 周的周五前交给学院，晚了会有经济处罚。\n· 拿 Monash 奖学金/助学金或外部资助、贷款的，先问 Scholarship and Study Loan Office 或资助方会不会受影响。\n· 退课对成绩记录和学费的影响，看 Principal Dates 或问 Finance Helpdesk。\n最后一年能在全日制学制内读完、最后一学期只剩几门课、或者加上暑期/冬季课程每学期凑够 24 学分的，不用申请。\n【澳洲校区（学生签证 subclass 500）】国际生只有在 compassionate or compelling circumstances（特殊情况）下才能申请减课或休学。详见 https://www.monash.edu/students/support/international/visa",
+  "url": "https://www.monash.edu.my/student-services/international-students/during-your-studies"
+ },
+ {
+  "phrases": [
+   "怎么多修课",
+   "overload",
+   "overload怎么申请",
+   "一学期能修五门课吗",
+   "可以多选一门课吗",
+   "多修一门课",
+   "想多修几门课",
+   "超修怎么申请",
+   "overload条件",
+   "超修",
+   "overload要求"
+  ],
+  "answer": "马莫的多修课（overload）是一年里修超过标准数量的课（全日制标准是每学期 24 学分、一年 48 学分）。一般只限同时满足：\n· 在马莫连续两个学期修满 48 学分；\n· 上一年的平均分（credit average，挂科也算进去）在 60% 或以上。\n学院 FAQ 写的是最多在 24 学分上加 1 门（一学期共 5 门），要学院批准。成绩特别好、在获批项目里的学生可能有例外；有些课程因为专业认证或临床要求，不允许多修提前读完。具体问学院的 Course Management Office，或看 https://www.monash.edu/enrolments/study-load.html\n申请：在 SORS 填 Overload Semester Enrolment：https://sors.monash.edu.my/sites/student-online-forms/enrol/overload-semester-enrolment ，附上最新的、包含第 5 门课的 course map，截止是开学第 2 周的周五。\n· 如果批准的是晚加课，要交费用，收费表：https://www.monash.edu/fees/miscellaneous-fees.html\n· 拿 Monash 奖学金/助学金或外部资助、贷款的，先问 Scholarship and Study Loan Office 或资助方会不会受影响。",
+  "url": "https://sors.monash.edu.my/sites/student-online-forms/enrol/overload-semester-enrolment"
+ },
+ {
+  "phrases": [
+   "一学期修几门课",
+   "一学期要修几门",
+   "正常一学期几门课",
+   "全日制要修多少学分",
+   "一学期多少学分",
+   "一学期修多少学分",
+   "每学期修几门课",
+   "一年修几门课",
+   "一年要修多少学分",
+   "一学期最多修几门",
+   "一学期最少修几门",
+   "要修几门课",
+   "选几门课",
+   "一学期选几门课"
+  ],
+  "answer": "全日制一般每学期修 4 门课、24 学分（一年 48 学分）。马莫国际生按 Student Pass 要求要保持全日制。\n· 想多修（overload）：一般要连续两个学期修满 48 学分、上一年平均分 60% 或以上，最多加 1 门（一学期 5 门），在 SORS 申请。详细问「overload怎么申请」。\n· 想少修（underload）：马莫国际生每学期最少 18 学分（3 门），只限特定情况，要先发邮件问 International Student Pass Office，再在 SORS 申请。详细问「underload怎么申请」。\n澳洲校区（澳大利亚）：标准也是每学期 24 学分，国际生只有在特殊情况（compassionate or compelling circumstances）下才能减课。",
+  "url": "https://www.monash.edu.my/student-services/international-students/during-your-studies"
+ }
+]

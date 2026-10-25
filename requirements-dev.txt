@@ -1,2 +1,4 @@
 -r requirements.txt
 pytest>=8
+# tests/test_chunks.py builds vectors with a fake model
+numpy>=1.26

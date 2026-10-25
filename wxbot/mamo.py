@@ -14,6 +14,7 @@ from typing import Any
 
 import aiohttp
 from bs4 import BeautifulSoup
+from pathlib import Path
 
 from . import config
 from .kb import KB
@@ -68,6 +69,40 @@ async def add_by_url(session: aiohttp.ClientSession, kb: KB, url: str) -> tuple[
     art = await fetch_article(session, url)
     art_id = kb.upsert_article(url, art["title"], art["digest"], art["content"], art["published_at"])
     return art_id, art["title"]
+
+
+# -- Monash Hub's source files, when the Hub is on another machine (issue #2) -------------------------
+# On the VPS wechat-bot-mamo.service copies them out of /opt/monash-hub/repo. Anywhere else they come from
+# the Hub's public repository: three small text files, read on the same 6-hour schedule.
+HUB_FILES = {
+    "frontend/data/mamo.ts": "mamo.ts",
+    "frontend/i18n/index.ts": "hub-i18n/index.ts",
+    "frontend/i18n/handbook-terms.ts": "hub-i18n/handbook-terms.ts",
+}
+
+
+async def fetch_hub_files(session: aiohttp.ClientSession, base_url: str, data_dir: Path) -> list[str]:
+    """Download mamo.ts and the two i18n files into data_dir. Each file is replaced only when the whole
+    download arrived and looks like the file expected, so a failed fetch leaves the last good copy in
+    place (the running bot re-reads them by mtime). Returns the files that changed."""
+    changed = []
+    for src, dest_name in HUB_FILES.items():
+        dest = data_dir / dest_name
+        async with session.get(f"{base_url.rstrip('/')}/{src}", timeout=aiohttp.ClientTimeout(total=30)) as resp:
+            if resp.status != 200:
+                raise RuntimeError(f"{src}: HTTP {resp.status}")
+            text = await resp.text()
+        marker = "MAMO_POSTS" if dest_name == "mamo.ts" else "const zh"
+        if marker not in text:
+            raise RuntimeError(f"{src}: not the file expected ({marker} missing)")
+        if dest.exists() and dest.read_text(encoding="utf-8") == text:
+            continue
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        tmp = dest.with_suffix(dest.suffix + ".tmp")
+        tmp.write_text(text, encoding="utf-8")
+        tmp.replace(dest)
+        changed.append(dest_name)
+    return changed
 
 
 # -- Monash Hub's copy of the post list -----------------------------------------------------------
@@ -156,5 +191,5 @@ async def sync_official(session: aiohttp.ClientSession, kb: KB) -> int:
                                   text, published)
                 stored += 1
         offset += len(items)
-        time.sleep(0.3)
+        await asyncio.sleep(0.3)
     return stored

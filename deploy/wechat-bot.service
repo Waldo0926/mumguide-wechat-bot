@@ -1,0 +1,22 @@
+[Unit]
+Description=WeChat Q&A bot (iLink) - Monash Hub + 马莫百科
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+User=wxbot
+Group=wxbot
+WorkingDirectory=/opt/wechat-bot
+Environment=WXBOT_HOME=/opt/wechat-bot
+EnvironmentFile=-/opt/wechat-bot/.env
+ExecStart=/opt/wechat-bot/venv/bin/python -m wxbot run
+Restart=always
+RestartSec=10
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+ReadWritePaths=/opt/wechat-bot/data
+
+[Install]
+WantedBy=multi-user.target

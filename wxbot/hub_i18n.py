@@ -162,7 +162,8 @@ class Cached:
 
     def __init__(self, directory: Path):
         self.directory = directory
-        self._stamp: tuple[float, float] | None = None
+        # Not None: files missing from the start must still be loaded once, so the warning is logged.
+        self._stamp: tuple[float, float] | None | str = "unread"
         self._value = HubI18n.empty()
 
     def get(self) -> HubI18n:
@@ -173,5 +174,5 @@ class Cached:
             stamp = None
         if stamp != self._stamp:
             self._stamp = stamp
-            self._value = HubI18n.load(self.directory) if stamp else HubI18n.empty()
+            self._value = HubI18n.load(self.directory)
         return self._value

@@ -1,0 +1,6 @@
+# Optional: local sentence vectors for the chunk index (python -m wxbot index). Without these the
+# index and search are lexical only. install.sh installs them once .env has a WXBOT_RAG line.
+onnxruntime>=1.17
+tokenizers>=0.15
+huggingface_hub>=0.20
+numpy>=1.26

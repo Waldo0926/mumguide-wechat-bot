@@ -22,6 +22,7 @@ from aiohttp import web
 from . import config
 from .brain import Brain, Out, intro, intro_short, is_greeting
 from .kb import KB
+from .tasks import spawn
 
 log = logging.getLogger(__name__)
 
@@ -67,6 +68,23 @@ def reply_xml(to: str, frm: str, content: str) -> str:
     return (f"<xml><ToUserName><![CDATA[{to}]]></ToUserName><FromUserName><![CDATA[{frm}]]></FromUserName>"
             f"<CreateTime>{int(time.time())}</CreateTime><MsgType><![CDATA[text]]></MsgType>"
             f"<Content><![CDATA[{content}]]></Content></xml>")
+
+
+def queued_texts(items: list[tuple[float, str]], now: float | None = None) -> list[str]:
+    """Outbox messages for a reply. One that waited days says which day it was written, so
+    "Waldo 的回复" does not read as something he just said."""
+    now = now or time.time()
+    out = []
+    for at, text in items:
+        if now - at > config.OUTBOX_DATED_DAYS * 86400:
+            day = time.localtime(at)
+            text = f"（{day.tm_mon} 月 {day.tm_mday} 日的回复）\n{text}"
+        out.append(text)
+    return out
+
+
+def take_queued(kb: KB, user: str) -> list[str]:
+    return queued_texts(kb.take_outbox(user, config.OUTBOX_DAYS * 86400))
 
 
 def default_welcome() -> str:
@@ -147,14 +165,14 @@ class MPServer:
         have not seen the 关注语 - it goes ahead of the answer."""
         if is_greeting(text):
             # "1" after a 稍等 is a request for the queued answer, not for the introduction again.
-            queued = self.kb.take_outbox(user)
+            queued = take_queued(self.kb, user)
             return "\n\n".join(queued) if queued else self.welcome()
         outs = await self.brain.handle(user, text)
         mine = [o.text for o in outs if o.to == user]
         others = [o for o in outs if o.to != user]
         if others:
-            asyncio.ensure_future(self.forward(others))
-        queued = self.kb.take_outbox(user)
+            spawn(self.forward(others))
+        queued = take_queued(self.kb, user)
         reply = "\n\n".join(queued + mine)
         if first:
             custom = self.kb.kv_get("mp_welcome") or default_welcome()
@@ -209,8 +227,31 @@ class MPServer:
         app = web.Application(client_max_size=64 * 1024)
         app.router.add_route("GET", "/mp", self.handle)
         app.router.add_route("POST", "/mp", self.handle)
-        app.router.add_route("GET", "/health", lambda r: web.Response(text="ok"))
+        app.router.add_route("GET", "/health", self.health)
         return app
+
+    async def health(self, request: web.Request) -> web.Response:
+        """For an outside check (issue #3): 200 while the bot can hear the owner, 503 when the ClawBot
+        session expired or its polling stopped, which is exactly when the bot's own alerts cannot get
+        out. Counts only, nothing about users. nginx may expose it; see deploy/nginx-wxbot.conf."""
+        state = health_state(self.kb)
+        return web.json_response(state, status=200 if state["ok"] else 503)
+
+
+STALE_POLL_S = 15 * 60      # a long poll ends within 35 s; this long without one means the loop is stuck
+
+
+def health_state(kb: KB, now: float | None = None) -> dict:
+    now = now or time.time()
+    last = kb.kv_get("last_poll")
+    age = int(now - int(last)) if last.isdigit() else None
+    expired = kb.kv_get("session_expired") or None
+    return {
+        "ok": not expired and (age is None or age <= STALE_POLL_S),
+        "last_poll_age_s": age,                 # None: no ClawBot login on this install (公众号 only)
+        "session_expired": expired,
+        "pending": len(kb.open_pending(999)),
+    }
 
 
 async def start(server: MPServer) -> web.AppRunner:

@@ -132,3 +132,49 @@ def test_one_slow_hub_call_is_not_an_alert(monkeypatch, caplog):
     lines = [(r.levelno, r.getMessage()) for r in caplog.records if r.name == "wxbot.hub"]
     assert [lvl for lvl, _ in lines] == [logging.INFO] * 4 + [logging.WARNING]
     assert lines[-1][1].endswith("TimeoutError") and "连不上 Monash Hub" in alerts._match(lines[-1][1])[1]
+
+
+def test_failed_delivery_does_not_start_success_cooldown_or_leak_logs(monkeypatch):
+    now = [100_000]
+    monkeypatch.setattr(alerts.time, "time", lambda: now[0])
+    sent = []
+
+    async def go():
+        async def send(text):
+            sent.append(text)
+            if len(sent) == 1:
+                raise RuntimeError("private token")
+        handler = AlertHandler(send, asyncio.get_running_loop())
+        record = logging.LogRecord("wxbot.test", logging.WARNING, "", 0,
+                                   "hub POST /ask failed: private token student@example.org", (), None)
+        handler.emit(record)
+        handler.emit(record)  # in-flight duplicate
+        await asyncio.sleep(0.01)
+        assert handler.last == {} and not handler.pending
+        handler.emit(record)
+        await asyncio.sleep(0.01)
+        assert len(sent) == 1
+        now[0] += 61
+        handler.emit(record)
+        await asyncio.sleep(0.01)
+        assert len(sent) == 2 and handler.last
+        now[0] += 61
+        handler.emit(record)
+        await asyncio.sleep(0.01)
+        assert len(sent) == 2  # successful send begins normal cooldown
+    asyncio.run(go())
+    assert "private token" not in "".join(sent) and "student@" not in "".join(sent)
+
+
+def test_no_ilink_recipients_uses_fallback_instead_of_claiming_success():
+    pc = _PC()
+    send = bot.alert_sender(_ILink(False, _KB()), {"mp:x", "pc:y"}, pc, "wxid_owner")
+    asyncio.run(send("safe"))
+    assert pc.sent == [("pc:wxid_owner", "safe")]
+
+
+def test_no_reachable_recipient_is_a_delivery_failure():
+    import pytest
+    send = bot.alert_sender(_ILink(False, _KB()), {"mp:x"}, None, "")
+    with pytest.raises(RuntimeError, match="No reachable"):
+        asyncio.run(send("safe"))

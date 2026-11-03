@@ -53,6 +53,8 @@
 | iLink「ClawBot」（腾讯官方个人机器人接口） | 只有作者 | 只属于扫码的那个号，别人加不了、也拉不进群，所以用作管理后台和告警渠道 |
 | MonashGuide 个人号，通过 jwping/wxbot（`wxbot/pcwx.py`） | 群聊、私聊 | 在群里被 @ 时回答；非官方方案，所以用单独的小号（封号风险作者已知晓）。设置 `WXBOT_OWNER_WXID` 后，待答通知通过它发到作者微信，ClawBot 掉线时告警也改走它 |
 
+告警只发送固定摘要，不附带原始日志。成功送达后才进入冷却；发送失败后等待 60 秒，下次同类事件可重试。没有可达的 iLink 管理员时使用已配置的 MonashGuide 兜底，否则明确视为失败。
+
 ## 为什么只许摘原句，不做普通的 RAG 机器人
 
 微信上的聊天机器人大多让大模型自己写回复。最有名的开源项目 [CowAgent](https://github.com/zhayujie/CowAgent)（原 chatgpt-on-wechat）在 README 里写的流程是：Agent 结合记忆、知识库和工具推理，再由模型生成回复。给生成的回复附上来源，也挡不住来源里没有的句子：一项对四个生成式搜索引擎的人工核查（[Liu、Zhang、Liang，EMNLP 2023 Findings](https://aclanthology.org/2023.findings-emnlp.467/)）发现，生成的句子只有 51.5% 能被它引用的来源完全支持。

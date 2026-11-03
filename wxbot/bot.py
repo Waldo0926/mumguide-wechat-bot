@@ -240,16 +240,18 @@ def alert_sender(ilink_bot: Bot | None, admins: set[str], pc: pcwx.PCWeChat | No
         return None
 
     async def send(text: str) -> None:
-        if ilink_bot:
+        recipients = sorted(a for a in admins if not a.startswith((mp.PREFIX, pcwx.PREFIX)))
+        if ilink_bot and recipients:
             try:
-                # Only iLink ids are reachable in ClawBot; admins added by pairing sit on the other channels.
-                for admin in sorted(a for a in admins if not a.startswith((mp.PREFIX, pcwx.PREFIX))):
+                for admin in recipients:
                     await ilink_bot.client.send_text(admin, text, ilink_bot.kb.context_token(admin))
                 return
-            except Exception as exc:
+            except Exception:
                 if not backup:
                     raise
-                logging.getLogger("wxbot.alerts").info("ClawBot could not take the alert (%s); using MonashGuide", exc)
+                logging.getLogger("wxbot.alerts").info("ClawBot could not take the alert; using MonashGuide")
+        if not backup:
+            raise RuntimeError("No reachable alert recipient")
         await backup.send(pcwx.user_id(None, owner_wxid), text)
     return send
 

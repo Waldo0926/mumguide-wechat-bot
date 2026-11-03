@@ -70,6 +70,8 @@ Two WeChat channels, because each can do only part of the job:
 | iLink "ClawBot" (Tencent's official personal-bot API) | the owner only | private to the account that scanned the QR code; cannot be shared or join groups, so it is the admin console and the alert channel |
 | MonashGuide personal account via jwping/wxbot (`wxbot/pcwx.py`) | group chats, private chats | answers when @-ed in a group; unofficial, so it is a separate small account (ban risk accepted by the owner). With `WXBOT_OWNER_WXID` set, 待答 notes go to the owner's WeChat through it, and alerts fall back to it when ClawBot is down |
 
+Alerts use fixed summaries without raw log contents. The cooldown starts after successful delivery; a failed send waits 60 seconds and can retry on the next matching event. With no reachable iLink admin, delivery uses the configured MonashGuide fallback or fails explicitly.
+
 ## Why quote-only, and not a usual RAG bot
 
 Most chat bots on WeChat let a model write the reply. [CowAgent](https://github.com/zhayujie/CowAgent) (formerly chatgpt-on-wechat), the best-known open-source one, describes its pipeline as an agent that reasons over memory, knowledge and tools, after which "Models generate the response". Attaching sources to a generated reply does not stop a sentence that no source says: an audit of four generative search engines ([Liu, Zhang and Liang, Findings of EMNLP 2023](https://aclanthology.org/2023.findings-emnlp.467/)) found only 51.5% of generated sentences fully supported by their citations.

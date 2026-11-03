@@ -51,6 +51,8 @@ class AlertHandler(logging.Handler):
         self.send = send
         self.loop = loop
         self.last: dict[str, float] = {}
+        self.pending: set[str] = set()
+        self.retry_after: dict[str, float] = {}
 
     def emit(self, record: logging.LogRecord) -> None:
         if record.name.startswith(LOGGER) or not record.name.startswith("wxbot"):
@@ -59,16 +61,31 @@ class AlertHandler(logging.Handler):
             message = record.getMessage()
         except Exception:
             return
-        (kind, plain, cooldown), now = _match(message), time.time()
-        if now - self.last.get(kind, 0) < cooldown:
-            return
-        self.last[kind] = now
-        quiet = f"{cooldown // 3600:g} 小时" if cooldown >= 3600 else f"{cooldown // 60:g} 分钟"
-        text = f"⚠️ 机器人提醒：{plain}\n（{time.strftime('%H:%M')}，同类问题 {quiet}内不再重复提醒）\n\n{message[:300]}"
-        self.loop.call_soon_threadsafe(lambda: spawn(self._safe_send(text)))
+        kind, plain, cooldown = _match(message)
+        # Logging can run in a worker thread; all delivery state belongs to the event loop.
+        self.loop.call_soon_threadsafe(self._queue, kind, plain, cooldown)
 
-    async def _safe_send(self, text: str) -> None:
+    def _queue(self, kind: str, plain: str, cooldown: float) -> None:
+        now = time.time()
+        if kind in self.pending or now < self.retry_after.get(kind, 0):
+            return
+        if kind in self.last and now - self.last[kind] < cooldown:
+            return
+        self.pending.add(kind)
+        quiet = f"{cooldown // 3600:g} 小时" if cooldown >= 3600 else f"{cooldown // 60:g} 分钟"
+        # Raw logs can carry messages, openids or credentials. Only fixed summaries leave the process.
+        text = f"⚠️ 机器人提醒：{plain}\n（{time.strftime('%H:%M')}，同类问题 {quiet}内不再重复提醒）"
+        spawn(self._safe_send(text, kind))
+
+    async def _safe_send(self, text: str, kind: str) -> None:
         try:
             await self.send(text)
-        except Exception as exc:
-            logging.getLogger(LOGGER).warning("could not deliver alert: %s", exc)
+        except Exception:
+            # Short backoff on the next matching event, not a successful-delivery cooldown.
+            self.retry_after[kind] = time.time() + 60
+            logging.getLogger(LOGGER).warning("could not deliver alert; retry on next matching event after 60s")
+        else:
+            self.last[kind] = time.time()
+            self.retry_after.pop(kind, None)
+        finally:
+            self.pending.discard(kind)

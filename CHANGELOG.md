@@ -3,6 +3,12 @@
 All notable changes, newest first. Entries are bilingual: English / 中文.
 There are no version numbers yet; the bot is deployed from `main` with `deploy/push.sh`.
 
+## 2026-11-03
+
+### Fixed / 修复
+- Alert cooldown begins only after successful delivery. Failed sends retry on the next matching log event after 60 seconds; overlapping sends are deduplicated. Raw log content and delivery exception details are omitted from outgoing alerts. / 告警仅在成功送达后进入冷却；失败后等待 60 秒，可由下次同类事件重试，并去重正在发送的提醒。外发提醒不再包含原始日志或发送异常详情。
+- With no reachable iLink admin, use the configured MonashGuide fallback or report delivery failure. / 没有可达的 iLink 管理员时使用已配置的 MonashGuide 兜底，否则明确视为发送失败。
+
 ## 2026-10-25
 
 ### Changed / 修改
